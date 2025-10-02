@@ -36,7 +36,7 @@ const Navbar = () => {
           <MenuIcon />
         </IconButton>
         <Image
-          src="/assets/logo/knk-logo-ore.png"
+          src="/assets/logo/knk-logo-bord.png"
           alt="logo"
           width={110}
           height={110}
@@ -45,7 +45,7 @@ const Navbar = () => {
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 3 }}>
           <Button color="inherit">Kolekcje</Button>
-          <Button color="inherit">O nas</Button>
+          <Button color="inherit">O mnie</Button>
           <Button color="inherit">Kontakt</Button>
         </Box>
         <IconButton color="inherit" aria-label="cart" onClick={openCart}>

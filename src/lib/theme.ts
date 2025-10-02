@@ -7,7 +7,7 @@ let theme = createTheme({
       default: "#F5F2EB",
       paper: "#FFFFFF",
     },
-    primary: { main: "#C46B45", contrastText: "#FFFFFF" },
+    primary: { main: "#792B2D", contrastText: "#FFFFFF" },
     secondary: { main: "#A9A17A" },
     text: { primary: "#2F2F2F", secondary: "#5A4633" },
     divider: "#E6E1D8",

@@ -1,5 +1,6 @@
 "use client";
 import { Box, Container, Typography, Button, Grid } from "@mui/material";
+import Image from "next/image";
 
 const Hero = () => (
   <Box
@@ -15,17 +16,14 @@ radial-gradient(40% 80% at 100% 20%, rgba(169,161,122,0.15) 0%, rgba(169,161,122
         <Grid
           size={{
             xs: 12,
-            md: 6,
+            md: 8,
           }}
         >
-          <Typography variant="overline" color="secondary.main">
-            Nowa kolekcja
-          </Typography>
           <Typography
             variant="h1"
             sx={{ mt: 1, mb: 2, fontSize: { xs: 44, md: 64 } }}
           >
-            Ceramika na nowe czasy
+            Kobieta na kole
           </Typography>
           <Typography
             variant="body1"
@@ -39,28 +37,22 @@ radial-gradient(40% 80% at 100% 20%, rgba(169,161,122,0.15) 0%, rgba(169,161,122
               Zobacz kolekcję
             </Button>
             <Button variant="outlined" color="primary" size="large">
-              O nas
+              O mnie
             </Button>
           </Box>
         </Grid>
         <Grid
           size={{
             xs: 12,
-            md: 6,
+            md: 4,
           }}
         >
-          <Box
-            sx={{
-              height: 420,
-              borderRadius: 4,
-              overflow: "hidden",
-              border: "1px solid",
-              borderColor: "divider",
-              backgroundImage:
-                "url(https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1600&auto=format&fit=crop)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
+          <Image
+            src="/assets/hero/hero-image.png"
+            alt="logo"
+            width={420}
+            height={420}
+            priority
           />
         </Grid>
       </Grid>
