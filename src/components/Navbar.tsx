@@ -20,10 +20,11 @@ const Navbar = () => {
       position="sticky"
       elevation={0}
       sx={{
-        bgcolor: "transparent",
+        bgcolor: "background.paper",
         color: "text.primary",
         borderBottom: "1px solid",
         borderColor: "divider",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
       }}
     >
       <Toolbar sx={{ gap: 2 }}>
