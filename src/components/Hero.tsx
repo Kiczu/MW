@@ -1,5 +1,5 @@
 "use client";
-import { Box, Container, Grid, Typography, Button } from "@mui/material";
+import { Box, Container, Typography, Button, Grid } from "@mui/material";
 
 const Hero = () => (
   <Box
@@ -12,7 +12,12 @@ radial-gradient(40% 80% at 100% 20%, rgba(169,161,122,0.15) 0%, rgba(169,161,122
   >
     <Container maxWidth="lg">
       <Grid container spacing={6} alignItems="center">
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Typography variant="overline" color="secondary.main">
             Nowa kolekcja
           </Typography>
@@ -38,7 +43,12 @@ radial-gradient(40% 80% at 100% 20%, rgba(169,161,122,0.15) 0%, rgba(169,161,122
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Box
             sx={{
               height: 420,

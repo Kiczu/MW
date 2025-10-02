@@ -12,7 +12,12 @@ const AboutSection = () => (
   >
     <Container maxWidth="lg">
       <Grid container spacing={6} alignItems="center">
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Box
             sx={{
               height: 340,
@@ -27,7 +32,12 @@ const AboutSection = () => (
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Typography variant="overline" color="secondary.main">
             O nas
           </Typography>

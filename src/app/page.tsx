@@ -32,7 +32,15 @@ const HomePage = () => {
         </Box>
         <Grid container spacing={3}>
           {PRODUCTS.map((p) => (
-            <Grid key={p.id} item xs={12} sm={6} md={4} lg={3}>
+            <Grid
+              key={p.id}
+              size={{
+                xs: 12,
+                sm: 6,
+                md: 4,
+                lg: 3,
+              }}
+            >
               <ProductCard product={p} onOpen={() => openProduct(p.id)} />
             </Grid>
           ))}

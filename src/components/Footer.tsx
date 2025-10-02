@@ -21,7 +21,12 @@ const Footer = () => (
   >
     <Container maxWidth="lg">
       <Grid container spacing={4}>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
             CERAMIKA
           </Typography>
@@ -30,7 +35,12 @@ const Footer = () => (
             rzemiosła.
           </Typography>
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid
+          size={{
+            xs: 6,
+            md: 3,
+          }}
+        >
           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
             Sklep
           </Typography>
@@ -46,7 +56,12 @@ const Footer = () => (
             </MUILink>
           </Box>
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid
+          size={{
+            xs: 6,
+            md: 3,
+          }}
+        >
           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
             Informacje
           </Typography>

@@ -34,7 +34,12 @@ const ProductPage = ({
         Wróć
       </Button>
       <Grid container spacing={6}>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Box
             sx={{
               height: 520,
@@ -48,7 +53,12 @@ const ProductPage = ({
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Typography variant="h3" sx={{ fontWeight: 700 }}>
             {product.title}
           </Typography>
