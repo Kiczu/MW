@@ -25,10 +25,7 @@ radial-gradient(40% 80% at 100% 20%, rgba(169,161,122,0.15) 0%, rgba(169,161,122
           >
             Kobieta na kole
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{ maxWidth: 520, color: "text.secondary" }}
-          >
+          <Typography variant="body1" sx={{ color: "text.secondary" }}>
             Ręcznie tworzone naczynia z naturalnych materiałów. Minimalizm,
             ciepłe szkliwa, trwałość.
           </Typography>
@@ -42,17 +39,24 @@ radial-gradient(40% 80% at 100% 20%, rgba(169,161,122,0.15) 0%, rgba(169,161,122
           </Box>
         </Grid>
         <Grid
-          size={{
-            xs: 12,
-            md: 4,
+          size={{ xs: 12, md: 4 }}
+          sx={{
+            position: "relative",
+            width: "100%",
+            maxWidth: 420,
+            aspectRatio: "1 / 1",
+            mx: { xs: "auto", md: 0 },
+            borderLeft: { md: "1px solid" },
+            borderColor: { md: "divider" },
           }}
         >
           <Image
             src="/assets/hero/hero-image.png"
-            alt="logo"
-            width={420}
-            height={420}
+            alt="Koło garncarskie"
+            fill
             priority
+            style={{ objectFit: "contain" }}
+            sizes="(min-width: 1200px) 420px, (min-width: 900px) 33vw, 80vw"
           />
         </Grid>
       </Grid>

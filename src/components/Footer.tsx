@@ -27,8 +27,11 @@ const Footer = () => (
             md: 6,
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: 700 }}>
-            CERAMIKA
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 700, textTransform: "uppercase" }}
+          >
+            Kobieta na kole
           </Typography>
           <Typography variant="body2" sx={{ mt: 1, color: "text.secondary" }}>
             Współczesna ceramika użytkowa inspirowana naturą i tradycją
@@ -80,7 +83,8 @@ const Footer = () => (
       </Grid>
       <Divider sx={{ my: 3 }} />
       <Typography variant="caption" color="text.secondary">
-        © {new Date().getFullYear()} Ceramika. Wszelkie prawa zastrzeżone.
+        © {new Date().getFullYear()} Kobieta na kole. Wszelkie prawa
+        zastrzeżone.
       </Typography>
     </Container>
   </Box>
