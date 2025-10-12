@@ -3,10 +3,10 @@ import { Container, Box, Grid, Button, Typography } from "@mui/material";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
-import AboutSection from "@/components/AboutSection";
 import Footer from "@/components/Footer";
 import { PRODUCTS } from "@/lib/products.mock";
 import { useRouter } from "next/navigation";
+import InstagramFeed from "@/components/instagram/InstagramFeed";
 
 const HomePage = () => {
   const router = useRouter();
@@ -45,8 +45,8 @@ const HomePage = () => {
             </Grid>
           ))}
         </Grid>
+        <InstagramFeed title="Na Instagramie" />
       </Container>
-      <AboutSection />
       <Footer />
     </>
   );
