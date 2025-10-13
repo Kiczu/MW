@@ -34,7 +34,10 @@ export async function GET() {
         const res = await fetch(url.toString(), { next: { revalidate } });
         if (!res.ok) {
             const err = await res.json().catch(() => ({}));
-            return NextResponse.json({ error: "Instagram API error", details: err }, { status: 502 });
+            const code = err?.error?.code;
+            const status = code === 190 ? 401 : 502;
+            const message = code === 190 ? "Invalid or expired Instagram access token" : "Instagram API error";
+            return NextResponse.json({ error: message, details: err }, { status });
         }
         const data = await res.json();
         return NextResponse.json({ items: data.data ?? [] });
