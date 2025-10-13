@@ -29,14 +29,8 @@ const PostCard = ({ item }: Props) => {
       elevation={0}
       sx={{
         position: "relative",
-        overflow: "hidden", // ZAOKRĄGLENIE działa też na img
-        border: "1px solid",
-        borderColor: "divider",
-        transition: "all ease .3s",
-        boxShadow: "0px 5px 10px -5px rgba(0, 0, 0, 0.3)",
         "&:hover": {
           transform: "translateY(-5px)",
-          boxShadow: "0px 7px 15px -2px rgba(0, 0, 0, 0.2)",
         },
       }}
     >

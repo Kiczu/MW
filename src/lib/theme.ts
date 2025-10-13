@@ -28,13 +28,18 @@ let theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
-          boxShadow: "0 6px 24px rgba(0,0,0,0.06)",
+          borderRadius: 12,
           border: "1px solid #E6E1D8",
+          boxShadow: "0px 5px 10px -5px rgba(0, 0, 0, 0.3)",
           overflow: "hidden",
+          transition: "transform .3s ease, box-shadow .3s ease",
+          "&:hover": {
+            boxShadow: "0px 5px 10px -5px rgba(0, 0, 0, 0.3)",
+          },
         },
       },
     },
+    MuiChip: { styleOverrides: { root: { backdropFilter: "saturate(1.2)" } } },
   },
 });
 
