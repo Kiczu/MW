@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { fetchInstagram } from "@/lib/api/instagram";
 import type { Item } from "./types";
 
 export const useInstagramFeed = () => {
@@ -9,18 +10,22 @@ export const useInstagramFeed = () => {
 
     useEffect(() => {
         const ctrl = new AbortController();
+
         (async () => {
             try {
-                const res = await fetch("/api/instagram", { cache: "force-cache", signal: ctrl.signal });
-                const json = await res.json();
-                if (!res.ok) throw new Error(json?.error || "Request failed");
-                setItems(Array.isArray(json?.items) ? json.items : []);
-            } catch (e: any) {
-                if (!ctrl.signal.aborted) setError(e?.message ?? "Fetch failed");
+                setError(null);
+                const data = await fetchInstagram(ctrl.signal);
+                setItems(data);
+            } catch (e) {
+                if (!ctrl.signal.aborted) {
+                    const msg = e instanceof Error ? e.message : "Fetch failed";
+                    setError(msg);
+                }
             } finally {
                 if (!ctrl.signal.aborted) setLoading(false);
             }
         })();
+
         return () => ctrl.abort();
     }, []);
 
