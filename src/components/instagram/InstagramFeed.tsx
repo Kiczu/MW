@@ -2,69 +2,78 @@
 import {
   Box,
   Typography,
+  Grid,
   Skeleton,
   useMediaQuery,
   useTheme,
-  Grid,
+  Button,
+  Stack,
 } from "@mui/material";
 import PostCard from "./PostCard";
 import { useInstagramFeed } from "./useInstagramFeed";
 
-type Props = {
-  title?: string;
-  columns?: { xs?: 12 | 6; sm?: 12 | 6; md?: 12 | 6 | 4; lg?: 12 | 6 | 4 | 3 };
-  spacing?: number | { xs: number; sm?: number; md?: number };
-  skeletonCount?: number;
-};
+type Props = { title?: string };
 
-const InstagramFeed = ({
-  title = "Na Instagramie",
-  columns = { xs: 12, sm: 6, md: 4 },
-  spacing = { xs: 2, sm: 3 }, // = theme.spacing(2/3)
-  skeletonCount = 6,
-}: Props) => {
-  const { items, loading, error } = useInstagramFeed();
+const InstagramFeed = ({ title = "Na Instagramie" }: Props) => {
+  const { items, loading, error, hasMore, loadingMore, loadMore } =
+    useInstagramFeed();
 
   const theme = useTheme();
   const upSm = useMediaQuery(theme.breakpoints.up("sm"));
   const upMd = useMediaQuery(theme.breakpoints.up("md"));
-  const perRow = upMd ? 3 : upSm ? 2 : 1;
+  const spacing = 3;
+  const cols = upMd ? 3 : upSm ? 2 : 1;
+  const skeletonCount = cols * 3;
 
   return (
-    <Box component="section" sx={{ py: { xs: 6, md: 10 } }}>
+    <Box component="section" sx={{ py: { xs: 8, md: 12 } }}>
       <Typography variant="h2" sx={{ mb: 3 }}>
         {title}
       </Typography>
 
-      {/* LOADING */}
+      {/* Loading */}
       {loading && (
         <Grid container spacing={spacing}>
-          {Array.from({ length: Math.max(skeletonCount, perRow * 2) }).map(
-            (_, i) => (
-              <Grid key={i} size={columns}>
-                <Skeleton
-                  variant="rounded"
-                  height={260 + (i % 3) * 24}
-                  sx={{ borderRadius: 2 }}
-                />
-              </Grid>
-            )
-          )}
-        </Grid>
-      )}
-
-      {/* SUCCESS */}
-      {!loading && !error && items.length > 0 && (
-        <Grid container spacing={spacing}>
-          {items.map((it) => (
-            <Grid key={it.id} size={columns}>
-              <PostCard item={it} />
+          {Array.from({ length: skeletonCount }).map((_, i) => (
+            <Grid key={i} size={{ xs: 12, sm: 6, md: 4 }}>
+              <Skeleton
+                variant="rectangular"
+                height={260}
+                sx={{ borderRadius: 2 }}
+              />
             </Grid>
           ))}
         </Grid>
       )}
 
-      {/* EMPTY / ERROR */}
+      {/* Content */}
+      {!loading && !error && items.length > 0 && (
+        <>
+          <Grid container spacing={spacing}>
+            {items.map((it) => (
+              <Grid key={it.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                <PostCard item={it} />
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Load more */}
+          {hasMore && (
+            <Stack alignItems="center" sx={{ mt: 3 }}>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={loadMore}
+                disabled={loadingMore}
+              >
+                {loadingMore ? "Ładowanie..." : "Załaduj więcej"}
+              </Button>
+            </Stack>
+          )}
+        </>
+      )}
+
+      {/* Error / Empty */}
       {!loading && (error || items.length === 0) && (
         <Typography color="text.secondary">
           {error

@@ -11,13 +11,15 @@ const FIELDS = [
     "children{media_type,media_url,thumbnail_url,id}",
 ].join(",");
 
-export const revalidate = 3600; // 1h
+export const revalidate = 300; // 5 min
 
-export async function GET() {
+export async function GET(req: Request) {
+    const { searchParams } = new URL(req.url);
+    const after = searchParams.get("after") || undefined;
+    const limit = searchParams.get("limit") ?? process.env.IG_LIMIT ?? "9";
+
     const userId = process.env.IG_USER_ID;
     const token = process.env.IG_LONG_LIVED_TOKEN;
-    const limit = process.env.IG_LIMIT || "12";
-
     if (!userId || !token) {
         return NextResponse.json(
             { error: "Missing IG_USER_ID or IG_LONG_LIVED_TOKEN" },
@@ -28,20 +30,51 @@ export async function GET() {
     const url = new URL(`https://graph.facebook.com/v19.0/${userId}/media`);
     url.searchParams.set("fields", FIELDS);
     url.searchParams.set("access_token", token);
-    url.searchParams.set("limit", limit);
+    url.searchParams.set("limit", String(limit));
+    if (after) url.searchParams.set("after", after);
 
     try {
-        const res = await fetch(url.toString(), { next: { revalidate } });
+        const res = await fetch(url.toString(), {
+            next: { revalidate, tags: ["instagram-feed"] },
+        });
+        const json = await res.json().catch(() => ({}));
+
         if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            const code = err?.error?.code;
+            const code = json?.error?.code;
             const status = code === 190 ? 401 : 502;
-            const message = code === 190 ? "Invalid or expired Instagram access token" : "Instagram API error";
-            return NextResponse.json({ error: message, details: err }, { status });
+            const message =
+                code === 190
+                    ? "Invalid or expired Instagram access token"
+                    : "Instagram API error";
+            return NextResponse.json({ error: message, details: json }, { status });
         }
-        const data = await res.json();
-        return NextResponse.json({ items: data.data ?? [] });
+
+        const items = Array.isArray(json?.data) ? json.data : [];
+        items.sort(
+            (a: any, b: any) =>
+                new Date(b?.timestamp || 0).getTime() -
+                new Date(a?.timestamp || 0).getTime()
+        );
+
+        const nextCursor: string | null =
+            json?.paging?.cursors?.after && json?.paging?.next
+                ? json.paging.cursors.after
+                : null;
+
+        const headers =
+            process.env.NODE_ENV !== "production"
+                ? {
+                    "Cache-Control": "no-store, no-cache, must-revalidate",
+                    "CDN-Cache-Control": "no-store",
+                    "Vercel-CDN-Cache-Control": "no-store",
+                }
+                : undefined;
+
+        return NextResponse.json({ items, nextCursor }, { headers });
     } catch (e: any) {
-        return NextResponse.json({ error: "Fetch failed", message: e?.message ?? String(e) }, { status: 500 });
+        return NextResponse.json(
+            { error: "Fetch failed", message: e?.message ?? String(e) },
+            { status: 500 }
+        );
     }
 }

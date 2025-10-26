@@ -29,8 +29,15 @@ const PostCard = ({ item }: Props) => {
       elevation={0}
       sx={{
         position: "relative",
+        borderRadius: 2,
+        overflow: "hidden",
+        border: "1px solid",
+        borderColor: "divider",
+        boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
+        transition: "transform .18s ease, box-shadow .18s ease",
         "&:hover": {
-          transform: "translateY(-5px)",
+          transform: "translateY(-10px)",
+          boxShadow: "0 10px 28px rgba(0,0,0,0.12)",
         },
       }}
     >
@@ -38,6 +45,7 @@ const PostCard = ({ item }: Props) => {
         href={item.permalink}
         target="_blank"
         rel="noopener noreferrer nofollow"
+        aria-label="Otwórz post na Instagramie"
         sx={{ position: "relative" }}
       >
         <CardMedia
@@ -46,7 +54,14 @@ const PostCard = ({ item }: Props) => {
           alt={item.caption?.slice(0, 80) || "Instagram post"}
           loading="lazy"
           decoding="async"
-          sx={{ display: "block", borderRadius: 0 }}
+          sx={{
+            display: "block",
+            width: "100%",
+            aspectRatio: "1 / 1", // równe kafelki
+            objectFit: "cover",
+            userSelect: "none",
+            WebkitUserDrag: "none",
+          }}
         />
 
         {(isVideo || isCarousel) && (
