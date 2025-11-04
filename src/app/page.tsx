@@ -6,7 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
 import { PRODUCTS } from "@/lib/products.mock";
 import { useRouter } from "next/navigation";
-import InstagramFeed from "@/components/instagram/InstagramFeed";
+import InstagramFeed from "@/components/Instagram/InstagramFeed";
 
 const HomePage = () => {
   const router = useRouter();

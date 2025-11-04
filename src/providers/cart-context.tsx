@@ -1,7 +1,14 @@
 "use client";
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import CartDrawer from "@/components/Cart/CartDrawer";
 import { Product } from "@/types";
-import CartDrawer from "@/components/CartDrawer";
 
 export type CartItem = { product: Product; qty: number; variantId?: string };
 
@@ -16,15 +23,37 @@ type CartContextType = {
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
+  toWooLineItems: () => {
+    product_id: number;
+    quantity: number;
+    variation_id?: number | string;
+  }[];
 };
 
 const CartContext = createContext<CartContextType | null>(null);
 
-export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+export const CartProvider = ({ children }: PropsWithChildren) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setOpen] = useState(false);
 
-  const addToCart = (product: Product, qty = 1, variantId?: string) => {
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("cart:v1");
+      if (raw) setItems(JSON.parse(raw));
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("cart:v1", JSON.stringify(items));
+    } catch {}
+  }, [items]);
+
+  const addToCart: CartContextType["addToCart"] = (
+    product,
+    qty = 1,
+    variantId
+  ) => {
     setItems((prev) => {
       const idx = prev.findIndex(
         (i) => i.product.id === product.id && i.variantId === variantId
@@ -38,17 +67,20 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
     setOpen(true);
   };
-  const inc = (i: number) =>
+
+  const inc: CartContextType["inc"] = (i) =>
     setItems((prev) =>
       prev.map((it, idx) => (idx === i ? { ...it, qty: it.qty + 1 } : it))
     );
-  const dec = (i: number) =>
+
+  const dec: CartContextType["dec"] = (i) =>
     setItems((prev) =>
       prev.map((it, idx) =>
         idx === i ? { ...it, qty: Math.max(1, it.qty - 1) } : it
       )
     );
-  const remove = (i: number) =>
+
+  const remove: CartContextType["remove"] = (i) =>
     setItems((prev) => prev.filter((_, idx) => idx !== i));
 
   const totalQty = useMemo(() => items.reduce((s, i) => s + i.qty, 0), [items]);
@@ -56,6 +88,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     () => items.reduce((s, i) => s + i.product.price * i.qty, 0),
     [items]
   );
+
+  const toWooLineItems: CartContextType["toWooLineItems"] = () =>
+    items.map((i) => ({
+      product_id: i.product.id,
+      quantity: i.qty,
+      ...(i.variantId ? { variation_id: i.variantId } : {}),
+    }));
 
   const value: CartContextType = {
     items,
@@ -68,12 +107,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     isOpen,
     openCart: () => setOpen(true),
     closeCart: () => setOpen(false),
+    toWooLineItems,
   };
 
   return (
     <CartContext.Provider value={value}>
       {children}
-      {/* globalny drawer, dostępny na każdej stronie */}
       <CartDrawer />
     </CartContext.Provider>
   );
