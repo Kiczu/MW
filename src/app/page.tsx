@@ -1,16 +1,16 @@
-"use client";
-import { Container, Box, Grid, Button, Typography } from "@mui/material";
+import { Container, Box, Button, Typography } from "@mui/material";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
-import { PRODUCTS } from "@/lib/products.mock";
-import { useRouter } from "next/navigation";
-import InstagramFeed from "@/components/Instagram/InstagramFeed";
+import { mapStoreToLite, storeFetch, StoreProduct } from "@/lib/api/woo";
+import { InstagramFeed } from "@/components/Instagram";
+import ProductGrid from "@/components/ProductGrid";
 
-const HomePage = () => {
-  const router = useRouter();
-  const openProduct = (id: number) => router.push(`/product/${id}`);
+const HomePage = async () => {
+  const list = await storeFetch<StoreProduct[]>(
+    `/products?status=publish&per_page=12&page=1`
+  );
+  const products = list.map(mapStoreToLite);
 
   return (
     <>
@@ -30,21 +30,7 @@ const HomePage = () => {
             Zobacz wszystkie
           </Button>
         </Box>
-        <Grid container spacing={3}>
-          {PRODUCTS.map((p) => (
-            <Grid
-              key={p.id}
-              size={{
-                xs: 12,
-                sm: 6,
-                md: 4,
-                lg: 3,
-              }}
-            >
-              <ProductCard product={p} onOpen={() => openProduct(p.id)} />
-            </Grid>
-          ))}
-        </Grid>
+        <ProductGrid products={products} />
         <InstagramFeed title="Na Instagramie" />
       </Container>
       <Footer />

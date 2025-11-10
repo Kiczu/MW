@@ -1,4 +1,6 @@
+// src/components/Cart/CartDrawer.tsx
 "use client";
+import { useState } from "react";
 import { Drawer, Box, Typography, Divider, List, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
@@ -7,10 +9,36 @@ import { useCart } from "@/providers/cart-context";
 import { pln } from "@/utils/money";
 
 const CartDrawer = () => {
-  const { isOpen, closeCart, items, inc, dec, remove, subtotal } = useCart();
+  const {
+    isOpen,
+    closeCart,
+    items,
+    inc,
+    dec,
+    remove,
+    subtotal,
+    toWooLineItems,
+  } = useCart();
+  const [loading, setLoading] = useState(false);
 
-  const goCheckout = () => {
-    // TODO: fetch('/api/create-order', ...) redirect na payUrl
+  const goCheckout = async () => {
+    if (!items.length) return;
+    setLoading(true);
+    try {
+      const resp = await fetch("/api/redirect-to-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ line_items: toWooLineItems() }),
+      });
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data?.message || "Błąd");
+      window.location.href = data.url;
+    } catch (e) {
+      console.error(e);
+      alert("Nie udało się przekierować do kasy");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,8 +87,14 @@ const CartDrawer = () => {
           <Typography>Razem</Typography>
           <Typography fontWeight={700}>{pln(subtotal)}</Typography>
         </Box>
-        <Button fullWidth size="large" variant="contained" onClick={goCheckout}>
-          Przejdź do kasy
+        <Button
+          fullWidth
+          size="large"
+          variant="contained"
+          onClick={goCheckout}
+          disabled={!items.length || loading}
+        >
+          {loading ? "Przekierowuję…" : "Przejdź do kasy"}
         </Button>
       </Box>
     </Drawer>

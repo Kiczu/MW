@@ -1,6 +1,6 @@
 "use client";
+import { useState } from "react";
 import {
-  Container,
   Grid,
   Box,
   Typography,
@@ -11,35 +11,26 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Product } from "@/types";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/providers/cart-context";
-import { useState } from "react";
+import { CartProduct } from "@/types";
 
-const ProductPage = ({
-  product,
-  onBack,
-}: {
-  product: Product;
-  onBack: () => void;
-}) => {
+const ProductPage = ({ product }: { product: CartProduct }) => {
+  const router = useRouter();
   const [qty, setQty] = useState(1);
-  const [variantId, setVariantId] = useState<string | undefined>(
-    product.variants?.[0]?.id
-  );
   const { addToCart } = useCart();
 
   return (
-    <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 } }}>
-      <Button startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} onClick={onBack}>
+    <>
+      <Button
+        startIcon={<ArrowBackIcon />}
+        sx={{ mb: 2 }}
+        onClick={() => router.back()}
+      >
         Wróć
       </Button>
       <Grid container spacing={6}>
-        <Grid
-          size={{
-            xs: 12,
-            md: 6,
-          }}
-        >
+        <Grid size={{ xs: 1, md: 6 }}>
           <Box
             sx={{
               height: 520,
@@ -53,36 +44,17 @@ const ProductPage = ({
             }}
           />
         </Grid>
-        <Grid
-          size={{
-            xs: 12,
-            md: 6,
-          }}
-        >
-          <Typography variant="h3" sx={{ fontWeight: 700 }}>
+
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Typography variant="h3" fontWeight={700} sx={{ mb: 3 }}>
             {product.title}
           </Typography>
-          <Typography variant="h5" sx={{ mt: 1, mb: 2 }}>
-            {product.price} zł
+          <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
+            {new Intl.NumberFormat("pl-PL", {
+              style: "currency",
+              currency: "PLN",
+            }).format(product.price)}
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            {product.description || "Opis produktu"}
-          </Typography>
-
-          {product.variants && (
-            <Box sx={{ mb: 2, display: "flex", gap: 1, flexWrap: "wrap" }}>
-              {product.variants.map((v) => (
-                <Button
-                  key={v.id}
-                  variant={variantId === v.id ? "contained" : "outlined"}
-                  color="primary"
-                  onClick={() => setVariantId(v.id)}
-                >
-                  {v.name}
-                </Button>
-              ))}
-            </Box>
-          )}
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
             <IconButton onClick={() => setQty((q) => Math.max(1, q - 1))}>
@@ -91,12 +63,12 @@ const ProductPage = ({
             <TextField
               size="small"
               value={qty}
+              onChange={(e) => setQty(Number(e.target.value) || 1)}
               inputProps={{
                 inputMode: "numeric",
                 pattern: "[0-9]*",
                 style: { width: 48, textAlign: "center" },
               }}
-              onChange={(e) => setQty(Number(e.target.value) || 1)}
             />
             <IconButton onClick={() => setQty((q) => q + 1)}>
               <AddIcon />
@@ -106,19 +78,26 @@ const ProductPage = ({
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button
               variant="contained"
-              color="primary"
               size="large"
-              onClick={() => addToCart(product, qty, variantId)}
+              onClick={() => addToCart(product, qty)}
             >
               Dodaj do koszyka
             </Button>
-            <Button variant="outlined" color="primary" size="large">
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={() => {
+                addToCart(product, qty);
+                router.push("/");
+              }}
+            >
               Kup teraz
             </Button>
           </Box>
         </Grid>
       </Grid>
-    </Container>
+    </>
   );
 };
+
 export default ProductPage;
