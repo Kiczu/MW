@@ -8,15 +8,13 @@ import {
   useState,
 } from "react";
 import CartDrawer from "@/components/Cart/CartDrawer";
-import { Product } from "@/types";
-
-export type CartItem = { product: Product; qty: number; variantId?: string };
+import { CartItem, CartProduct } from "@/types";
 
 type CartContextType = {
   items: CartItem[];
   totalQty: number;
   subtotal: number;
-  addToCart: (p: Product, qty?: number, variantId?: string) => void;
+  addToCart: (p: CartProduct, qty?: number, variantId?: string) => void;
   inc: (i: number) => void;
   dec: (i: number) => void;
   remove: (i: number) => void;
