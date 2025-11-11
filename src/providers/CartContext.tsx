@@ -2,22 +2,24 @@
 import {
   createContext,
   PropsWithChildren,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
 import CartDrawer from "@/components/Cart/CartDrawer";
-import { CartItem, CartProduct } from "@/types";
+import { CartItem, CartItemId, CartProduct } from "@/types/cart";
+import { sameKey } from "@/lib/cart";
 
 type CartContextType = {
   items: CartItem[];
   totalQty: number;
   subtotal: number;
   addToCart: (p: CartProduct, qty?: number, variantId?: string) => void;
-  inc: (i: number) => void;
-  dec: (i: number) => void;
-  remove: (i: number) => void;
+  inc: (id: CartItemId) => void;
+  dec: (id: CartItemId) => void;
+  remove: (id: CartItemId) => void;
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
@@ -53,33 +55,40 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
     variantId
   ) => {
     setItems((prev) => {
-      const idx = prev.findIndex(
-        (i) => i.product.id === product.id && i.variantId === variantId
-      );
+      const id = { productId: product.id, variantId };
+
+      const idx = prev.findIndex((it) => sameKey(it, id));
       if (idx >= 0) {
         const copy = [...prev];
         copy[idx] = { ...copy[idx], qty: copy[idx].qty + qty };
         return copy;
       }
-      return [...prev, { product, qty, variantId }];
+
+      return [...prev, { product, qty, variantId, productId: product.id }];
     });
+
     setOpen(true);
   };
 
-  const inc: CartContextType["inc"] = (i) =>
+  const inc = useCallback((id: CartItemId) => {
     setItems((prev) =>
-      prev.map((it, idx) => (idx === i ? { ...it, qty: it.qty + 1 } : it))
+      prev.map((it) => (sameKey(it, id) ? { ...it, qty: it.qty + 1 } : it))
     );
+  }, []);
 
-  const dec: CartContextType["dec"] = (i) =>
+  const dec = useCallback((id: CartItemId) => {
     setItems((prev) =>
-      prev.map((it, idx) =>
-        idx === i ? { ...it, qty: Math.max(1, it.qty - 1) } : it
-      )
+      prev
+        .map((it) =>
+          sameKey(it, id) ? { ...it, qty: Math.max(0, it.qty - 1) } : it
+        )
+        .filter((it) => it.qty > 0)
     );
+  }, []);
 
-  const remove: CartContextType["remove"] = (i) =>
-    setItems((prev) => prev.filter((_, idx) => idx !== i));
+  const remove = useCallback((id: CartItemId) => {
+    setItems((prev) => prev.filter((it) => !sameKey(it, id)));
+  }, []);
 
   const totalQty = useMemo(() => items.reduce((s, i) => s + i.qty, 0), [items]);
   const subtotal = useMemo(
