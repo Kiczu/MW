@@ -12,25 +12,21 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { pln } from "@/utils/money";
+import type { CartItem } from "@/types/cart";
 
-type CartRowProps = {
-  it: {
-    qty: number;
-    variantId?: string | number;
-    product: { id: number; title: string; image?: string; price: number };
-  };
-  idx: number;
-  inc: (i: number) => void;
-  dec: (i: number) => void;
-  remove: (i: number) => void;
+export type CartRowProps = {
+  it: CartItem;
+  onInc: () => void;
+  onDec: () => void;
+  onRemove: () => void;
 };
 
-const CartRow = ({ it, idx, inc, dec, remove }: CartRowProps) => {
+const CartRow = ({ it, onInc, onDec, onRemove }: CartRowProps) => {
   const variantLabel = it.variantId
     ? ` • ${String(it.variantId).toUpperCase()}`
     : "";
-  const primary = `${it.product.title}${variantLabel}`;
-  const secondary = `${pln(it.product.price)} / szt.`;
+  const title = `${it.product.title}${variantLabel}`;
+  const price = `${pln(it.product.price)} / szt.`;
 
   return (
     <ListItem
@@ -40,7 +36,7 @@ const CartRow = ({ it, idx, inc, dec, remove }: CartRowProps) => {
             <IconButton
               size="small"
               color="error"
-              onClick={() => remove(idx)}
+              onClick={onRemove}
               aria-label={`Usuń ${it.product.title}`}
             >
               <DeleteOutlineIcon fontSize="small" />
@@ -48,7 +44,7 @@ const CartRow = ({ it, idx, inc, dec, remove }: CartRowProps) => {
           ) : (
             <IconButton
               size="small"
-              onClick={() => dec(idx)}
+              onClick={onDec}
               aria-label={`Zmniejsz ilość ${it.product.title}`}
             >
               <RemoveIcon fontSize="small" />
@@ -57,7 +53,7 @@ const CartRow = ({ it, idx, inc, dec, remove }: CartRowProps) => {
           <Typography component="span">{it.qty}</Typography>
           <IconButton
             size="small"
-            onClick={() => inc(idx)}
+            onClick={onInc}
             aria-label={`Zwiększ ilość ${it.product.title}`}
           >
             <AddIcon fontSize="small" />
@@ -69,14 +65,16 @@ const CartRow = ({ it, idx, inc, dec, remove }: CartRowProps) => {
         <Avatar
           variant="rounded"
           src={it.product.image}
-          sx={{ width: 56, height: 56 }}
+          alt={it.product.title}
+          sx={{ width: 90, height: 90, mr: 2 }}
         />
       </ListItemAvatar>
       <ListItemText
-        primary={<Typography fontWeight={600}>{primary}</Typography>}
+        sx={{ pr: 6 }}
+        primary={<Typography fontWeight={600}>{title}</Typography>}
         secondary={
           <Typography variant="body2" color="text.secondary">
-            {secondary}
+            {price}
           </Typography>
         }
       />

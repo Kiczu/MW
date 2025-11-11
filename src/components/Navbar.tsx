@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useCart } from "@/providers/cart-context";
+import { useCart } from "@/providers/CartContext";
 import Image from "next/image";
 
 const Navbar = () => {

@@ -12,8 +12,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useRouter } from "next/navigation";
-import { useCart } from "@/providers/cart-context";
-import { CartProduct } from "@/types";
+import { useCart } from "@/providers/CartContext";
+import { CartProduct } from "@/types/cart";
 
 const ProductPage = ({ product }: { product: CartProduct }) => {
   const router = useRouter();

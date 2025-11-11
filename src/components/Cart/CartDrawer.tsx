@@ -1,14 +1,15 @@
-// src/components/Cart/CartDrawer.tsx
 "use client";
 import { useState } from "react";
 import { Drawer, Box, Typography, Divider, List, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import CartRow from "./CartRow";
-import { useCart } from "@/providers/cart-context";
+import { useCart } from "@/providers/CartContext";
 import { pln } from "@/utils/money";
+import { makeItemKey } from "@/lib/cart";
 
 const CartDrawer = () => {
+  const [loading, setLoading] = useState(false);
   const {
     isOpen,
     closeCart,
@@ -19,26 +20,22 @@ const CartDrawer = () => {
     subtotal,
     toWooLineItems,
   } = useCart();
-  const [loading, setLoading] = useState(false);
 
   const goCheckout = async () => {
-    if (!items.length) return;
     setLoading(true);
-    try {
-      const resp = await fetch("/api/redirect-to-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ line_items: toWooLineItems() }),
-      });
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data?.message || "Błąd");
-      window.location.href = data.url;
-    } catch (e) {
-      console.error(e);
-      alert("Nie udało się przekierować do kasy");
-    } finally {
-      setLoading(false);
+    console.log("lineItems:", toWooLineItems());
+    const resp = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lineItems: toWooLineItems() }),
+    });
+    if (!resp.ok) {
+      const text = await resp.text();
+      throw new Error(`/api/checkout ${resp.status}: ${text.slice(0, 200)}`);
     }
+    const data = await resp.json();
+    if (!data?.url) throw new Error("Brak pola url w odpowiedzi API.");
+    window.location.href = data.url;
   };
 
   return (
@@ -61,26 +58,21 @@ const CartDrawer = () => {
           <CloseIcon />
         </IconButton>
       </Box>
-
       <Divider />
       <List sx={{ p: 0 }}>
-        {items.length === 0 && (
-          <Typography sx={{ p: 2, color: "text.secondary" }}>
-            Koszyk jest pusty
-          </Typography>
-        )}
-        {items.map((it, idx) => (
-          <CartRow
-            key={idx}
-            it={it}
-            idx={idx}
-            inc={inc}
-            dec={dec}
-            remove={remove}
-          />
-        ))}
+        {items.map((it) => {
+          const id = { productId: it.product.id, variantId: it.variantId };
+          return (
+            <CartRow
+              key={makeItemKey(id)}
+              it={it}
+              onInc={() => inc(id)}
+              onDec={() => dec(id)}
+              onRemove={() => remove(id)}
+            />
+          );
+        })}
       </List>
-
       <Box sx={{ mt: "auto", p: 2 }}>
         <Divider sx={{ mb: 2 }} />
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
