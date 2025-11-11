@@ -10,8 +10,8 @@ import {
   CardActions,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useCart } from "@/providers/cart-context";
-import { CartProduct } from "@/types";
+import { useCart } from "@/providers/CartContext";
+import { CartProduct } from "@/types/cart";
 
 type Props = { products: CartProduct[] };
 
