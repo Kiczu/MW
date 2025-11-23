@@ -1,15 +1,22 @@
+import { Container } from "@mui/material";
 import Providers from "./Providers";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="pl">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Navbar />
+          <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+            {children}
+          </Container>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
