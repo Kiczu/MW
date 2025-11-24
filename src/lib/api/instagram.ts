@@ -1,4 +1,4 @@
-import type { Item } from "@/components/Instagram/types";
+import type { Item } from "@/components/instagram";
 
 export type InstagramPage = {
     items: Item[];

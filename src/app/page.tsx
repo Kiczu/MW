@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import Hero from "@/components/Hero";
 import { mapStoreToLite, storeFetch } from "@/lib/api/woo";
-import { InstagramFeed } from "@/components/Instagram";
+import { InstagramFeed } from "@/components/instagram";
 import ProductGrid from "@/components/ProductGrid";
 import type { StoreProduct } from "@/types/shop";
 
