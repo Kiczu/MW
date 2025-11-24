@@ -1,71 +1,127 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { storeApi } from "@/services/storeApi";
-import { sortFns, SORTING_OPTION } from "./sort";
+import { sortFns, SORTING_OPTION, type SortOption } from "./sort";
 import type { StoreProduct, StoreCategory, UiProduct } from "@/types/shop";
 import { mapStoreToLite } from "@/lib/api/woo";
 
+export type CategoryFilter = "all" | number;
+
+const groupByCategory = (
+    list: StoreProduct[],
+): Record<number, StoreProduct[]> => {
+    return list.reduce<Record<number, StoreProduct[]>>((acc, product) => {
+        product.categories?.forEach((category) => {
+            if (!acc[category.id]) {
+                acc[category.id] = [];
+            }
+            acc[category.id].push(product);
+        });
+        return acc;
+    }, {});
+};
+
 export const useShopData = () => {
-    const [allProducts, setAllProducts] = useState<StoreProduct[]>([]);
-    const [products, setProducts] = useState<StoreProduct[]>([]);
+    const [rawProducts, setRawProducts] = useState<StoreProduct[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<StoreProduct[]>([]);
     const [categories, setCategories] = useState<StoreCategory[]>([]);
-    const [activeCategory, setActiveCategory] = useState<string | number>("all");
-    const [productsByCategory, setProductsByCategory] = useState<Record<number, StoreProduct[]>>({});
-    const [activeSort, setActiveSort] = useState(SORTING_OPTION.THE_NEWEST);
+    const [productsByCategory, setProductsByCategory] = useState<
+        Record<number, StoreProduct[]>
+    >({});
+    const [activeCategory, setActiveCategory] =
+        useState<CategoryFilter>("all");
+    const [activeSort, setActiveSort] = useState<SortOption>(
+        SORTING_OPTION.THE_NEWEST,
+    );
     const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const toggleMenu = () => setIsFilterMenuOpen(v => !v);
+    const toggleMenu = () => setIsFilterMenuOpen((v) => !v);
 
     useEffect(() => {
-        storeApi.getProducts().then(data => {
-            setAllProducts(data);
-            setProducts(data);
-            setProductsByCategory(groupByCategory(data));
-        }).catch(console.error);
+        let cancelled = false;
+
+        const loadProducts = async () => {
+            try {
+                const data = await storeApi.getProducts();
+                if (cancelled) return;
+
+                setRawProducts(data);
+                setFilteredProducts(data);
+                setProductsByCategory(groupByCategory(data));
+            } catch (err) {
+                if (cancelled) return;
+                console.error(err);
+                setError("Nie udało się pobrać produktów.");
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadProducts();
+
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     useEffect(() => {
-        (async () => {
-            const data = await storeApi.getCategories();
-            const filtered = data.filter((c) => c.count !== 0);
-            setCategories(filtered);
-        })().catch(console.error);
+        let cancelled = false;
+
+        const loadCategories = async () => {
+            try {
+                const data = await storeApi.getCategories();
+                if (cancelled) return;
+
+                const filtered = data.filter((c) => c.count !== 0);
+                setCategories(filtered);
+            } catch (err) {
+                if (cancelled) return;
+                console.error(err);
+            }
+        };
+
+        loadCategories();
+
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
-    const groupByCategory = (list: StoreProduct[]) => {
-        const out: Record<string | number, StoreProduct[]> = {};
-        list.forEach((p: any) => p.categories?.forEach((c: any) => {
-            (out[c.id] ||= []).push(p);
-        }));
-        return out;
-    };
-
-    const handleCategoryClick = (id: string | number) => {
-        const isAll = id === "all";
+    const handleCategoryClick = (id: CategoryFilter) => {
         setActiveCategory(id);
-        if (isAll) {
-            setProducts(allProducts);
-        } else {
-            const key = Number(id);
-            setProducts(productsByCategory[key] ?? []);
+
+        if (id === "all") {
+            setFilteredProducts(rawProducts);
+            return;
         }
+
+        const productsForCategory = productsByCategory[id] ?? [];
+        setFilteredProducts(productsForCategory);
     };
 
-    const handleSelectChange = (value: typeof SORTING_OPTION[keyof typeof SORTING_OPTION]) =>
+    const handleSelectChange = (value: SortOption) => {
         setActiveSort(value);
+    };
 
     const visibleProducts: UiProduct[] = useMemo(() => {
-        const lite = products.map(mapStoreToLite);
+        const lite = filteredProducts.map(mapStoreToLite);
         const sort = sortFns[activeSort];
         return sort ? [...lite].sort(sort) : lite;
-    }, [activeSort, products]);
+    }, [activeSort, filteredProducts]);
 
     return {
+        loading,
+        error,
         activeCategory,
+        activeSort,
         categories,
+        products: visibleProducts,
         handleCategoryClick,
         handleSelectChange,
-        visibleProducts,
         isFilterMenuOpen,
         toggleMenu,
     };
