@@ -6,16 +6,17 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { SORTING_OPTION } from "@/lib/shop/sort";
+import { SORTING_OPTION, SortOption } from "@/lib/shop/sort";
 
-type Props = { value?: SORTING_OPTION; onChange?: (v: SORTING_OPTION) => void };
+type Props = {
+  value?: SortOption;
+  onChange?: (v: SortOption) => void;
+};
 
-const SortingSelect = ({
-  value = SORTING_OPTION.THE_NEWEST,
-  onChange,
-}: Props) => {
-  const handle = (e: SelectChangeEvent) =>
-    onChange?.(e.target.value as SORTING_OPTION);
+const SortingSelect = ({ value, onChange }: Props) => {
+  const handle = (e: SelectChangeEvent<SortOption>) =>
+    onChange?.(e.target.value as SortOption);
+
   return (
     <FormControl size="small" sx={{ minWidth: 220 }}>
       <InputLabel id="sort-label">Sortowanie</InputLabel>
@@ -25,10 +26,10 @@ const SortingSelect = ({
         value={value}
         onChange={handle}
       >
-        <MenuItem value={SORTING_OPTION.PRICE_DOWN}>
+        <MenuItem value={SORTING_OPTION.PRICE_ASC}>
           Cena – od najniższej
         </MenuItem>
-        <MenuItem value={SORTING_OPTION.PRICE_UP}>
+        <MenuItem value={SORTING_OPTION.PRICE_DESC}>
           Cena – od najwyższej
         </MenuItem>
         <MenuItem value={SORTING_OPTION.POPULARITY}>Popularność</MenuItem>
