@@ -3,7 +3,6 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 import ProductsGrid from "@/components/Shop/ProductsGrid";
 import Filters from "@/components/Shop/Filters";
 import { useShopData } from "@/lib/shop/useShopData";
-import { SORTING_OPTION } from "@/lib/shop/sort";
 
 const ShopPage = () => {
   const {
