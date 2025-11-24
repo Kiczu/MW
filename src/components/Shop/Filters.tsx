@@ -1,16 +1,17 @@
 "use client";
 import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import { useEffect, useRef } from "react";
-import type { WooCategory } from "@/types/shop";
+import type { StoreCategory } from "@/types/shop";
 import SortingSelect from "./SortingSelect";
-import { SORTING_OPTION } from "@/lib/shop/sort";
+import { type SortOption } from "@/lib/shop/sort";
+import { CategoryFilter } from "@/lib/shop/useShopData";
 
 type Props = {
-  categories: WooCategory[];
-  activeCategory: string | number;
-  onCategory: (id: string | number) => void;
-  sorting: SORTING_OPTION;
-  onSort: (s: SORTING_OPTION) => void;
+  categories: StoreCategory[];
+  activeCategory: CategoryFilter;
+  onCategory: (id: CategoryFilter) => void;
+  activeSort: SortOption;
+  onSort: (s: SortOption) => void;
   isOpen: boolean;
   toggle: () => void;
 };
@@ -19,7 +20,7 @@ const Filters = ({
   categories,
   activeCategory,
   onCategory,
-  sorting,
+  activeSort,
   onSort,
   isOpen,
   toggle,
@@ -82,7 +83,7 @@ const Filters = ({
       </Stack>
 
       <Box sx={{ ml: "auto" }}>
-        <SortingSelect value={sorting} onChange={onSort} />
+        <SortingSelect value={activeSort} onChange={onSort} />
       </Box>
     </Box>
   );
