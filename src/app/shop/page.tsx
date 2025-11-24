@@ -1,5 +1,4 @@
 "use client";
-
 import { Box, Container, Divider, Typography } from "@mui/material";
 import ProductsGrid from "@/components/Shop/ProductsGrid";
 import Filters from "@/components/Shop/Filters";
@@ -10,8 +9,9 @@ const ShopPage = () => {
   const {
     categories,
     activeCategory,
+    activeSort,
     handleCategoryClick,
-    visibleProducts,
+    products: visibleProducts,
     isFilterMenuOpen,
     toggleMenu,
     handleSelectChange,
@@ -27,7 +27,7 @@ const ShopPage = () => {
         categories={categories}
         activeCategory={activeCategory}
         onCategory={handleCategoryClick}
-        sorting={SORTING_OPTION.THE_NEWEST}
+        activeSort={activeSort}
         onSort={handleSelectChange}
         isOpen={isFilterMenuOpen}
         toggle={toggleMenu}
