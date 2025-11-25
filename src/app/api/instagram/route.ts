@@ -13,6 +13,33 @@ const FIELDS = [
 
 export const revalidate = 300; // 5 min
 
+type IgMediaItem = {
+    id: string;
+    caption?: string;
+    media_type?: string;
+    media_url?: string;
+    permalink?: string;
+    thumbnail_url?: string;
+    timestamp?: string;
+    children?: unknown;
+};
+
+type IgApiError = {
+    code?: number;
+    message?: string;
+};
+
+type IgApiResponse = {
+    data?: IgMediaItem[];
+    paging?: {
+        cursors?: {
+            after?: string;
+        };
+        next?: string;
+    };
+    error?: IgApiError;
+};
+
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const after = searchParams.get("after") || undefined;
@@ -23,7 +50,7 @@ export async function GET(req: Request) {
     if (!userId || !token) {
         return NextResponse.json(
             { error: "Missing IG_USER_ID or IG_LONG_LIVED_TOKEN" },
-            { status: 500 }
+            { status: 500 },
         );
     }
 
@@ -37,27 +64,30 @@ export async function GET(req: Request) {
         const res = await fetch(url.toString(), {
             next: { revalidate, tags: ["instagram-feed"] },
         });
-        const json = await res.json().catch(() => ({}));
+
+        const json = (await res.json().catch(() => ({}))) as IgApiResponse;
 
         if (!res.ok) {
-            const code = json?.error?.code;
+            const code = json.error?.code;
             const status = code === 190 ? 401 : 502;
             const message =
                 code === 190
                     ? "Invalid or expired Instagram access token"
                     : "Instagram API error";
+
             return NextResponse.json({ error: message, details: json }, { status });
         }
 
-        const items = Array.isArray(json?.data) ? json.data : [];
-        items.sort(
-            (a: any, b: any) =>
-                new Date(b?.timestamp || 0).getTime() -
-                new Date(a?.timestamp || 0).getTime()
-        );
+        const items: IgMediaItem[] = Array.isArray(json.data) ? json.data : [];
 
-        const nextCursor: string | null =
-            json?.paging?.cursors?.after && json?.paging?.next
+        items.sort((a, b) => {
+            const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+            const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+            return timeB - timeA;
+        });
+
+        const nextCursor =
+            json.paging?.cursors?.after && json.paging.next
                 ? json.paging.cursors.after
                 : null;
 
@@ -71,10 +101,11 @@ export async function GET(req: Request) {
                 : undefined;
 
         return NextResponse.json({ items, nextCursor }, { headers });
-    } catch (e: any) {
+    } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e);
         return NextResponse.json(
-            { error: "Fetch failed", message: e?.message ?? String(e) },
-            { status: 500 }
+            { error: "Fetch failed", message },
+            { status: 500 },
         );
     }
 }
