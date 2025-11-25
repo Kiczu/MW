@@ -1,6 +1,6 @@
 "use client";
 import { PATHS } from "@/config/paths";
-import { Box, Container, Typography, Button, Grid, Link } from "@mui/material";
+import { Box, Typography, Button, Grid, Link } from "@mui/material";
 import Image from "next/image";
 
 const Hero = () => (
