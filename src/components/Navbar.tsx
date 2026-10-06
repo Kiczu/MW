@@ -13,6 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useCart } from "@/providers/CartContext";
 import Image from "next/image";
 import { PATHS } from "@/config/paths";
+import { SHOP_ENABLED } from "@/config/features";
 
 const Navbar = () => {
   const { totalQty, openCart } = useCart();
@@ -64,14 +65,16 @@ const Navbar = () => {
           >
             O mnie
           </Button>
-          <Button
-            component={Link}
-            href={PATHS.shop}
-            variant="text"
-            color="inherit"
-          >
-            Sklep
-          </Button>
+          {SHOP_ENABLED && (
+            <Button
+              component={Link}
+              href={PATHS.shop}
+              variant="text"
+              color="inherit"
+            >
+              Sklep
+            </Button>
+          )}
           <Button
             component={Link}
             href={PATHS.contact}
@@ -81,11 +84,13 @@ const Navbar = () => {
             Kontakt
           </Button>
         </Box>
-        <IconButton color="inherit" aria-label="cart" onClick={openCart}>
-          <Badge badgeContent={totalQty} color="primary">
-            <ShoppingBagIcon />
-          </Badge>
-        </IconButton>
+        {SHOP_ENABLED && (
+          <IconButton color="inherit" aria-label="cart" onClick={openCart}>
+            <Badge badgeContent={totalQty} color="primary">
+              <ShoppingBagIcon />
+            </Badge>
+          </IconButton>
+        )}
       </Toolbar>
     </AppBar>
   );

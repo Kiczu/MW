@@ -7,6 +7,7 @@ import {
   Divider,
   Link as MUILink,
 } from "@mui/material";
+import { SHOP_ENABLED } from "@/config/features";
 
 const Footer = () => (
   <Box
@@ -38,48 +39,56 @@ const Footer = () => (
             rzemiosła.
           </Typography>
         </Grid>
-        <Grid
-          size={{
-            xs: 6,
-            md: 3,
-          }}
-        >
-          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-            Sklep
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}>
-            <MUILink underline="hover" href="#">
-              Kolekcje
-            </MUILink>
-            <MUILink underline="hover" href="#">
-              Nowości
-            </MUILink>
-            <MUILink underline="hover" href="#">
-              Kontakt
-            </MUILink>
-          </Box>
-        </Grid>
-        <Grid
-          size={{
-            xs: 6,
-            md: 3,
-          }}
-        >
-          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-            Informacje
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}>
-            <MUILink underline="hover" href="#">
-              Regulamin
-            </MUILink>
-            <MUILink underline="hover" href="#">
-              Prywatność
-            </MUILink>
-            <MUILink underline="hover" href="#">
-              Zwroty
-            </MUILink>
-          </Box>
-        </Grid>
+        {SHOP_ENABLED && (
+          <>
+            <Grid
+              size={{
+                xs: 6,
+                md: 3,
+              }}
+            >
+              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                Sklep
+              </Typography>
+              <Box
+                sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}
+              >
+                <MUILink underline="hover" href="#">
+                  Kolekcje
+                </MUILink>
+                <MUILink underline="hover" href="#">
+                  Nowości
+                </MUILink>
+                <MUILink underline="hover" href="#">
+                  Kontakt
+                </MUILink>
+              </Box>
+            </Grid>
+            <Grid
+              size={{
+                xs: 6,
+                md: 3,
+              }}
+            >
+              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                Informacje
+              </Typography>
+              <Box
+                sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}
+              >
+                <MUILink underline="hover" href="#">
+                  Regulamin
+                </MUILink>
+                <MUILink underline="hover" href="#">
+                  Prywatność
+                </MUILink>
+                <MUILink underline="hover" href="#">
+                  Zwroty
+                </MUILink>
+              </Box>
+            </Grid>
+          </>
+        )}
       </Grid>
       <Divider sx={{ my: 3 }} />
       <Typography variant="caption" color="text.secondary">

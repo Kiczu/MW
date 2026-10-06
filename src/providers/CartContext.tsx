@@ -11,6 +11,7 @@ import {
 import CartDrawer from "@/components/Cart/CartDrawer";
 import { CartItem, CartItemId, CartProduct } from "@/types/cart";
 import { sameKey } from "@/lib/cart";
+import { SHOP_ENABLED } from "@/config/features";
 
 type CartContextType = {
   items: CartItem[];
@@ -120,7 +121,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
   return (
     <CartContext.Provider value={value}>
       {children}
-      <CartDrawer />
+      {SHOP_ENABLED && <CartDrawer />}
     </CartContext.Provider>
   );
 };

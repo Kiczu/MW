@@ -14,11 +14,10 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/providers/CartContext";
 import { CartProduct } from "@/types/cart";
+import { SHOP_ENABLED } from "@/config/features";
 
 const ProductPage = ({ product }: { product: CartProduct }) => {
   const router = useRouter();
-  const [qty, setQty] = useState(1);
-  const { addToCart } = useCart();
 
   return (
     <>
@@ -49,53 +48,83 @@ const ProductPage = ({ product }: { product: CartProduct }) => {
           <Typography variant="h3" fontWeight={700} sx={{ mb: 3 }}>
             {product.title}
           </Typography>
-          <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
-            {new Intl.NumberFormat("pl-PL", {
-              style: "currency",
-              currency: "PLN",
-            }).format(product.price)}
-          </Typography>
-
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
-            <IconButton onClick={() => setQty((q) => Math.max(1, q - 1))}>
-              <RemoveIcon />
-            </IconButton>
-            <TextField
-              size="small"
-              value={qty}
-              onChange={(e) => setQty(Number(e.target.value) || 1)}
-              inputProps={{
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-                style: { width: 48, textAlign: "center" },
-              }}
-            />
-            <IconButton onClick={() => setQty((q) => q + 1)}>
-              <AddIcon />
-            </IconButton>
-          </Box>
-
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Button
-              variant="contained"
-              size="large"
-              onClick={() => addToCart(product, qty)}
-            >
-              Dodaj do koszyka
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              onClick={() => {
-                addToCart(product, qty);
-                router.push("/");
-              }}
-            >
-              Kup teraz
-            </Button>
-          </Box>
+          {SHOP_ENABLED ? (
+            <ShopControls product={product} />
+          ) : (
+            <Box sx={{ color: "text.secondary" }}>
+              <Typography sx={{ mb: 2 }}>
+                [Opis przedmiotu: do czego służy, skąd pomysł, historia
+                powstania.]
+              </Typography>
+              <Typography variant="body2">
+                Masa: [kamionka / porcelana / …]
+                <br />
+                Szkliwo: [nazwa, wykończenie]
+                <br />
+                Wypał: [temperatura]
+                <br />
+                Wymiary: [wys. × śr., pojemność]
+              </Typography>
+            </Box>
+          )}
         </Grid>
       </Grid>
+    </>
+  );
+};
+
+const ShopControls = ({ product }: { product: CartProduct }) => {
+  const router = useRouter();
+  const [qty, setQty] = useState(1);
+  const { addToCart } = useCart();
+
+  return (
+    <>
+      <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
+        {new Intl.NumberFormat("pl-PL", {
+          style: "currency",
+          currency: "PLN",
+        }).format(product.price)}
+      </Typography>
+
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
+        <IconButton onClick={() => setQty((q) => Math.max(1, q - 1))}>
+          <RemoveIcon />
+        </IconButton>
+        <TextField
+          size="small"
+          value={qty}
+          onChange={(e) => setQty(Number(e.target.value) || 1)}
+          inputProps={{
+            inputMode: "numeric",
+            pattern: "[0-9]*",
+            style: { width: 48, textAlign: "center" },
+          }}
+        />
+        <IconButton onClick={() => setQty((q) => q + 1)}>
+          <AddIcon />
+        </IconButton>
+      </Box>
+
+      <Box sx={{ display: "flex", gap: 2 }}>
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => addToCart(product, qty)}
+        >
+          Dodaj do koszyka
+        </Button>
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={() => {
+            addToCart(product, qty);
+            router.push("/");
+          }}
+        >
+          Kup teraz
+        </Button>
+      </Box>
     </>
   );
 };

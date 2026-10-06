@@ -1,5 +1,6 @@
 "use client";
 import { PATHS } from "@/config/paths";
+import { SHOP_ENABLED } from "@/config/features";
 import { Box, Typography, Button, Grid, Link } from "@mui/material";
 import Image from "next/image";
 
@@ -21,12 +22,12 @@ const Hero = () => (
       <Box sx={{ mt: 4, display: "flex", gap: 2 }}>
         <Button
           component={Link}
-          href={PATHS.shop}
+          href={SHOP_ENABLED ? PATHS.shop : PATHS.works}
           variant="contained"
           color="primary"
           size="large"
         >
-          Zobacz kolekcję
+          {SHOP_ENABLED ? "Zobacz kolekcję" : "Zobacz prace"}
         </Button>
 
         <Button
