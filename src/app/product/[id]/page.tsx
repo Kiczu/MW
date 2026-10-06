@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Container } from "@mui/material";
 import ProductPage from "@/components/ProductPage";
 import { storeFetch } from "@/lib/api/woo";
 import type { StoreProduct } from "@/types/shop";
@@ -22,7 +23,11 @@ const ProductRoute = async ({ params }: Params) => {
   if (!p) return notFound();
   const product = toLite(p);
 
-  return <ProductPage product={product} />;
+  return (
+    <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+      <ProductPage product={product} />
+    </Container>
+  );
 };
 
 export default ProductRoute;
