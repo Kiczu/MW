@@ -8,6 +8,51 @@ import {
   Link as MUILink,
 } from "@mui/material";
 import { SHOP_ENABLED } from "@/config/features";
+import { PATHS } from "@/config/paths";
+import { CONTACT } from "@/config/contact";
+
+type FooterColumn = {
+  title: string;
+  links: { label: string; href: string }[];
+};
+
+const COLUMNS: FooterColumn[] = SHOP_ENABLED
+  ? [
+      {
+        title: "Sklep",
+        links: [
+          { label: "Kolekcje", href: PATHS.shop },
+          { label: "Nowości", href: PATHS.shop },
+          { label: "Kontakt", href: PATHS.contact },
+        ],
+      },
+      {
+        title: "Informacje",
+        links: [
+          { label: "Regulamin", href: "#" },
+          { label: "Prywatność", href: "#" },
+          { label: "Zwroty", href: "#" },
+        ],
+      },
+    ]
+  : [
+      {
+        title: "Strona",
+        links: [
+          { label: "Prace", href: PATHS.works },
+          { label: "O mnie", href: PATHS.about },
+          { label: "Proces", href: PATHS.process },
+          { label: "Pielęgnacja", href: PATHS.care },
+        ],
+      },
+      {
+        title: "Kontakt",
+        links: [
+          { label: CONTACT.email, href: `mailto:${CONTACT.email}` },
+          { label: "Instagram", href: CONTACT.instagram },
+        ],
+      },
+    ];
 
 const Footer = () => (
   <Box
@@ -39,56 +84,33 @@ const Footer = () => (
             rzemiosła.
           </Typography>
         </Grid>
-        {SHOP_ENABLED && (
-          <>
-            <Grid
-              size={{
-                xs: 6,
-                md: 3,
-              }}
+        {COLUMNS.map((col) => (
+          <Grid
+            key={col.title}
+            size={{
+              xs: 6,
+              md: 3,
+            }}
+          >
+            <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+              {col.title}
+            </Typography>
+            <Box
+              sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}
             >
-              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                Sklep
-              </Typography>
-              <Box
-                sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}
-              >
-                <MUILink underline="hover" href="#">
-                  Kolekcje
+              {col.links.map((l) => (
+                <MUILink
+                  key={l.label}
+                  underline="hover"
+                  href={l.href}
+                  sx={{ wordBreak: "break-word" }}
+                >
+                  {l.label}
                 </MUILink>
-                <MUILink underline="hover" href="#">
-                  Nowości
-                </MUILink>
-                <MUILink underline="hover" href="#">
-                  Kontakt
-                </MUILink>
-              </Box>
-            </Grid>
-            <Grid
-              size={{
-                xs: 6,
-                md: 3,
-              }}
-            >
-              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                Informacje
-              </Typography>
-              <Box
-                sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}
-              >
-                <MUILink underline="hover" href="#">
-                  Regulamin
-                </MUILink>
-                <MUILink underline="hover" href="#">
-                  Prywatność
-                </MUILink>
-                <MUILink underline="hover" href="#">
-                  Zwroty
-                </MUILink>
-              </Box>
-            </Grid>
-          </>
-        )}
+              ))}
+            </Box>
+          </Grid>
+        ))}
       </Grid>
       <Divider sx={{ my: 3 }} />
       <Typography variant="caption" color="text.secondary">

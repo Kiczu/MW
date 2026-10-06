@@ -2,8 +2,10 @@ export const PATHS = {
     home: "/",
     shop: "/shop",
     works: "/#prace",
-    about: "/about-me",
+    about: "/#o-mnie",
+    process: "/#proces",
+    care: "/#pielegnacja",
     collections: "/collections",
-    contact: "/contact",
+    contact: "/#kontakt",
     product: (id: string | number) => `/product/${id}`,
 };
