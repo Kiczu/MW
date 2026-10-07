@@ -3,6 +3,11 @@ import Hero from "@/components/Hero";
 import { mapStoreToLite, storeFetch } from "@/lib/api/woo";
 import { InstagramFeed } from "@/components/instagram";
 import ProductGrid from "@/components/ProductGrid";
+import AboutSection from "@/components/sections/AboutSection";
+import ProcessSection from "@/components/sections/ProcessSection";
+import CareSection from "@/components/sections/CareSection";
+import FollowSection from "@/components/sections/FollowSection";
+import ContactSection from "@/components/sections/ContactSection";
 import type { StoreProduct } from "@/types/shop";
 import { PATHS } from "@/config/paths";
 import { SHOP_ENABLED } from "@/config/features";
@@ -14,30 +19,39 @@ const HomePage = async () => {
   const products = list.map(mapStoreToLite);
 
   return (
-    <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
-      <Hero />
-      <Box
-        id="prace"
-        sx={{
-          scrollMarginTop: 96,
-          display: "flex",
-          alignItems: "baseline",
-          justifyContent: "space-between",
-          mb: 3,
-        }}
-      >
-        <Typography variant="h2">
-          {SHOP_ENABLED ? "Polecane" : "Moje prace"}
-        </Typography>
-        {SHOP_ENABLED && (
-          <Button variant="text" color="primary" href={PATHS.shop}>
-            Zobacz wszystkie
-          </Button>
-        )}
-      </Box>
-      <ProductGrid products={products} />
-      <InstagramFeed title="Na Instagramie" />
-    </Container>
+    <>
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+        <Hero />
+        <Box
+          id="prace"
+          sx={{
+            scrollMarginTop: 96,
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+            mb: 3,
+          }}
+        >
+          <Typography variant="h2">
+            {SHOP_ENABLED ? "Polecane" : "Moje prace"}
+          </Typography>
+          {SHOP_ENABLED && (
+            <Button variant="text" color="primary" href={PATHS.shop}>
+              Zobacz wszystkie
+            </Button>
+          )}
+        </Box>
+        <ProductGrid products={products} />
+      </Container>
+      <AboutSection />
+      <ProcessSection />
+      <CareSection />
+      <FollowSection />
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+        <InstagramFeed title="Na Instagramie" />
+      </Container>
+      <ContactSection />
+    </>
   );
 };
 export default HomePage;
