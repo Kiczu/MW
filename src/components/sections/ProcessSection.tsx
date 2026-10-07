@@ -4,23 +4,23 @@ import ImagePlaceholder from "@/components/ImagePlaceholder";
 const STEPS = [
   {
     title: "Glina",
-    text: "[Z jakiej masy pracujesz i skąd ją bierzesz.]",
+    text: "Pracuję na gotowych masach ceramicznych, najczęściej na porcelanie. Każda zachowuje się trochę inaczej w dłoniach i w piecu.",
   },
   {
-    title: "Toczenie",
-    text: "[Formowanie na kole, toczenie stopki, doklejanie uszek.]",
+    title: "Formowanie",
+    text: "Każdą pracę kształtuję ręcznie. Po podsuszeniu wygładzam ją i dopracowuję detale.",
   },
   {
     title: "Suszenie i pierwszy wypał",
-    text: "[Ile trwa suszenie, wypał biskwitowy — temperatura.]",
+    text: "Prace schną powoli, żeby nie popękały. Pierwszy, biskwitowy wypał utwardza glinę i przygotowuje ją do szkliwienia.",
   },
   {
     title: "Szkliwienie",
-    text: "[Jakie szkliwa, czy własne receptury, jak je nakładasz.]",
+    text: "Używam gotowych szkliw z atestem do kontaktu z żywnością, więc z naczyń można bezpiecznie jeść i pić.",
   },
   {
     title: "Drugi wypał",
-    text: "[Wypał na ostro — temperatura, dlaczego każda sztuka jest inna.]",
+    text: "Wypał na ostro, w temperaturze ok. 1200–1300°C, stapia szkliwo. Dopiero po otwarciu pieca widać efekt i każda sztuka wychodzi trochę inna.",
   },
 ];
 
@@ -37,7 +37,8 @@ const ProcessSection = () => (
         variant="body1"
         sx={{ color: "text.secondary", mb: 5, maxWidth: 640 }}
       >
-        [Jedno–dwa zdania o tym, ile czasu i etapów stoi za jednym naczyniem.]
+        Zanim naczynie trafi na stół, przechodzi przez kilka etapów i dwa
+        wypały.
       </Typography>
       <Grid container spacing={3}>
         {STEPS.map((s, i) => (
