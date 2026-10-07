@@ -55,7 +55,7 @@ const Hero = () => (
     >
       <Image
         src="/assets/hero/hero-image.png"
-        alt="Koło garncarskie"
+        alt="Ilustracja ceramicznego naczynia"
         fill
         priority
         style={{ objectFit: "contain" }}

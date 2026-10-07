@@ -4,11 +4,11 @@ import ImagePlaceholder from "@/components/ImagePlaceholder";
 const STEPS = [
   {
     title: "Glina",
-    text: "Pracuję na gotowych masach ceramicznych, najczęściej na porcelanie. Każda zachowuje się trochę inaczej na kole i w piecu.",
+    text: "Pracuję na gotowych masach ceramicznych, najczęściej na porcelanie. Każda zachowuje się trochę inaczej w dłoniach i w piecu.",
   },
   {
-    title: "Toczenie",
-    text: "Naczynie nabiera kształtu na kole garncarskim. Po podsuszeniu wykańczam je i toczę stopkę.",
+    title: "Formowanie",
+    text: "Każdą pracę kształtuję ręcznie. Po podsuszeniu wygładzam ją i dopracowuję detale.",
   },
   {
     title: "Suszenie i pierwszy wypał",

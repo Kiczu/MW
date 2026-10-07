@@ -20,7 +20,7 @@ const FollowSection = () => (
         Zajrzyj do pracowni
       </Typography>
       <Typography sx={{ opacity: 0.9, mb: 4 }}>
-        Nowe prace, kulisy toczenia i efekty wypałów pokazuję na bieżąco na
+        Nowe prace, kulisy pracowni i efekty wypałów pokazuję na bieżąco na
         Instagramie.
       </Typography>
       <Box
