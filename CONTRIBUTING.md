@@ -5,6 +5,7 @@
 - Use arrow functions assigned to `const` for components, hooks and helpers. Components use a default export.
 - Style with MUI: theme values first (`src/lib/theme.ts`), then the `sx` prop. Avoid hard-coded colours that already exist in the theme.
 - Keep routes in `PATHS` (`src/config/paths.ts`) instead of string literals.
+- Gate everything that sells (prices, cart, checkout, `/shop`) behind `SHOP_ENABLED` (`src/config/features.ts`). The site currently runs with the shop turned off.
 - UI copy is Polish; code, commits and docs are English.
 - Follow the surrounding formatting, import order and naming.
 - Add a comment only when the code cannot explain the reason on its own.

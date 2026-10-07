@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
+import { SHOP_ENABLED } from "@/config/features";
 
 export const runtime = "nodejs";
 
 type LineItem = { product_id: number; quantity: number; variation_id?: number };
 
 export const POST = async (req: Request) => {
+    if (!SHOP_ENABLED) {
+        return NextResponse.json({ message: "Not found" }, { status: 404 });
+    }
+
     const body = await req.json().catch(() => null);
 
     const raw =

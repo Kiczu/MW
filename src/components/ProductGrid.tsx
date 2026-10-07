@@ -12,6 +12,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useCart } from "@/providers/CartContext";
 import { CartProduct } from "@/types/cart";
+import { SHOP_ENABLED } from "@/config/features";
 
 type Props = { products: CartProduct[] };
 
@@ -33,13 +34,20 @@ const ProductGrid = ({ products }: Props) => {
               />
             )}
             <CardContent>
-              <Typography fontWeight={600}>{p.title}</Typography>
-              <Typography color="primary.main" sx={{ mb: 1, fontWeight: 600 }}>
-                {new Intl.NumberFormat("pl-PL", {
-                  style: "currency",
-                  currency: "PLN",
-                }).format(p.price)}
+              <Typography fontWeight={600} sx={{ mb: SHOP_ENABLED ? 0 : 1 }}>
+                {p.title}
               </Typography>
+              {SHOP_ENABLED && (
+                <Typography
+                  color="primary.main"
+                  sx={{ mb: 1, fontWeight: 600 }}
+                >
+                  {new Intl.NumberFormat("pl-PL", {
+                    style: "currency",
+                    currency: "PLN",
+                  }).format(p.price)}
+                </Typography>
+              )}
               <Divider />
             </CardContent>
             <CardActions>
@@ -50,22 +58,24 @@ const ProductGrid = ({ products }: Props) => {
               >
                 Szczegóły
               </Button>
-              <Button
-                variant="contained"
-                onClick={() =>
-                  addToCart(
-                    {
-                      id: p.id,
-                      title: p.title,
-                      image: p.image,
-                      price: p.price,
-                    },
-                    1
-                  )
-                }
-              >
-                Do koszyka
-              </Button>
+              {SHOP_ENABLED && (
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    addToCart(
+                      {
+                        id: p.id,
+                        title: p.title,
+                        image: p.image,
+                        price: p.price,
+                      },
+                      1
+                    )
+                  }
+                >
+                  Do koszyka
+                </Button>
+              )}
             </CardActions>
           </Card>
         </Grid>
