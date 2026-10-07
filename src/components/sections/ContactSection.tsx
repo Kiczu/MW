@@ -1,7 +1,6 @@
 import { Box, Container, Grid, Link, Typography } from "@mui/material";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import { CONTACT } from "@/config/contact";
 
 const ITEMS = [
@@ -16,11 +15,6 @@ const ITEMS = [
     label: "Instagram",
     value: CONTACT.instagramHandle,
     href: CONTACT.instagram,
-  },
-  {
-    icon: <PlaceOutlinedIcon color="primary" />,
-    label: "Pracownia",
-    value: CONTACT.location,
   },
 ];
 
@@ -41,20 +35,16 @@ const ContactSection = () => (
       </Typography>
       <Grid container spacing={4}>
         {ITEMS.map((item) => (
-          <Grid key={item.label} size={{ xs: 12, md: 4 }}>
+          <Grid key={item.label} size={{ xs: 12, sm: 6 }}>
             <Box sx={{ display: "flex", gap: 2, alignItems: "flex-start" }}>
               {item.icon}
               <Box>
                 <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                   {item.label}
                 </Typography>
-                {item.href ? (
-                  <Link href={item.href} underline="hover">
-                    {item.value}
-                  </Link>
-                ) : (
-                  <Typography color="text.secondary">{item.value}</Typography>
-                )}
+                <Link href={item.href} underline="hover">
+                  {item.value}
+                </Link>
               </Box>
             </Box>
           </Grid>
