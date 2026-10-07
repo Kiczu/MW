@@ -17,7 +17,7 @@ const ShopPage = () => {
   } = useShopData();
 
   return (
-    <Container sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
       <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>
         Sklep
       </Typography>

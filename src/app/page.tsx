@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import Hero from "@/components/Hero";
 import { mapStoreToLite, storeFetch } from "@/lib/api/woo";
 import { InstagramFeed } from "@/components/instagram";
@@ -9,12 +9,12 @@ import { SHOP_ENABLED } from "@/config/features";
 
 const HomePage = async () => {
   const list = await storeFetch<StoreProduct[]>(
-    `/products?status=publish&per_page=12&page=1`
+    `/products?status=publish&per_page=12&page=1`,
   );
   const products = list.map(mapStoreToLite);
 
   return (
-    <>
+    <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
       <Hero />
       <Box
         id="prace"
@@ -37,7 +37,7 @@ const HomePage = async () => {
       </Box>
       <ProductGrid products={products} />
       <InstagramFeed title="Na Instagramie" />
-    </>
+    </Container>
   );
 };
 export default HomePage;
