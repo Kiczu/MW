@@ -7,71 +7,105 @@ import {
   Button,
   IconButton,
   TextField,
+  Divider,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/providers/CartContext";
 import { CartProduct } from "@/types/cart";
+import type { ProductDetails } from "@/types/shop";
+import ProductGallery from "@/components/Product/ProductGallery";
+import { PATHS } from "@/config/paths";
 import { SHOP_ENABLED } from "@/config/features";
 
-const ProductPage = ({ product }: { product: CartProduct }) => {
-  const router = useRouter();
+const ProductPage = ({ product }: { product: ProductDetails }) => (
+  <>
+    <Button
+      component={Link}
+      href={PATHS.works}
+      startIcon={<ArrowBackIcon />}
+      sx={{ mb: 3 }}
+    >
+      Wszystkie prace
+    </Button>
+    <Grid container spacing={{ xs: 4, md: 8 }}>
+      <Grid size={{ xs: 12, md: 7 }}>
+        <ProductGallery images={product.images} />
+      </Grid>
 
-  return (
-    <>
-      <Button
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2 }}
-        onClick={() => router.back()}
-      >
-        Wróć
-      </Button>
-      <Grid container spacing={6}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Box
-            sx={{
-              height: { xs: 360, md: 520 },
-              borderRadius: 4,
-              overflow: "hidden",
-              border: "1px solid",
-              borderColor: "divider",
-              backgroundImage: `url(${product.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="h3" fontWeight={700} sx={{ mb: 3 }}>
+      <Grid size={{ xs: 12, md: 5 }}>
+        <Box sx={{ position: { md: "sticky" }, top: { md: 128 } }}>
+          {product.categories.length > 0 && (
+            <Typography variant="overline" color="secondary.main">
+              {product.categories.join(" · ")}
+            </Typography>
+          )}
+          <Typography variant="h3" component="h1" sx={{ mt: 0.5, mb: 3 }}>
             {product.title}
           </Typography>
-          {SHOP_ENABLED ? (
-            <ShopControls product={product} />
-          ) : (
-            <Box sx={{ color: "text.secondary" }}>
-              <Typography sx={{ mb: 2 }}>
-                [Opis przedmiotu: do czego służy, skąd pomysł, historia
-                powstania.]
-              </Typography>
-              <Typography variant="body2">
-                Masa: [kamionka / porcelana / …]
-                <br />
-                Szkliwo: [nazwa, wykończenie]
-                <br />
-                Wypał: [temperatura]
-                <br />
-                Wymiary: [wys. × śr., pojemność]
-              </Typography>
-            </Box>
+
+          {SHOP_ENABLED && (
+            <ShopControls
+              product={{
+                id: product.id,
+                title: product.title,
+                image: product.image,
+                price: product.price,
+              }}
+            />
           )}
-        </Grid>
+
+          {product.descriptionHtml && (
+            <Box
+              sx={{
+                color: "text.secondary",
+                typography: "body1",
+                "& p": { mt: 0, mb: 2 },
+                "& p:last-child": { mb: 0 },
+              }}
+              dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+            />
+          )}
+
+          {product.attributes.length > 0 && (
+            <>
+              <Divider sx={{ my: 3 }} />
+              <Box
+                component="dl"
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr",
+                  columnGap: 3,
+                  rowGap: 1,
+                  m: 0,
+                }}
+              >
+                {product.attributes.map((a) => (
+                  <Box key={a.name} sx={{ display: "contents" }}>
+                    <Typography component="dt" variant="body2" fontWeight={600}>
+                      {a.name}
+                    </Typography>
+                    <Typography
+                      component="dd"
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ m: 0 }}
+                    >
+                      {a.value}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </>
+          )}
+        </Box>
       </Grid>
-    </>
-  );
-};
+    </Grid>
+  </>
+);
 
 const ShopControls = ({ product }: { product: CartProduct }) => {
   const router = useRouter();
@@ -79,8 +113,8 @@ const ShopControls = ({ product }: { product: CartProduct }) => {
   const { addToCart } = useCart();
 
   return (
-    <>
-      <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
+    <Box sx={{ mb: 4 }}>
+      <Typography variant="h4" sx={{ mb: 2 }}>
         {new Intl.NumberFormat("pl-PL", {
           style: "currency",
           currency: "PLN",
@@ -125,7 +159,7 @@ const ShopControls = ({ product }: { product: CartProduct }) => {
           Kup teraz
         </Button>
       </Box>
-    </>
+    </Box>
   );
 };
 

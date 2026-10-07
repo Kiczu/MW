@@ -1,4 +1,4 @@
-import type { StoreProduct, UiProduct } from "@/types/shop";
+import type { ProductDetails, StoreProduct, UiProduct } from "@/types/shop";
 
 const getBaseUrl = () => {
     return process.env.NEXT_PUBLIC_WP_URL ?? process.env.WP_URL ?? "";
@@ -31,9 +31,29 @@ export const mapStoreToUiProduct = (p: StoreProduct): UiProduct => {
         title: p.name,
         price,
         image: p.images?.[0]?.src,
+        hoverImage: p.images?.[1]?.src,
+        category: p.categories?.[0]?.name,
         total_sales: p.total_sales,
         date_created: p.date_created,
     };
 };
 
 export const mapStoreToLite = mapStoreToUiProduct;
+
+export const mapStoreToProductDetails = (p: StoreProduct): ProductDetails => ({
+    ...mapStoreToUiProduct(p),
+    images: (p.images ?? []).map((img) => ({
+        src: img.src,
+        alt: img.alt || p.name,
+    })),
+    categories: (p.categories ?? []).map((c) => c.name),
+    descriptionHtml: [p.short_description, p.description]
+        .filter((html) => html?.trim())
+        .join(""),
+    attributes: (p.attributes ?? [])
+        .map((a) => ({
+            name: a.name,
+            value: (a.terms ?? []).map((t) => t.name).join(", "),
+        }))
+        .filter((a) => a.value),
+});
