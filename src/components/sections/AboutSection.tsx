@@ -15,22 +15,27 @@ const AboutSection = () => (
     <Container maxWidth="lg">
       <Grid container spacing={6} alignItems="center">
         <Grid size={{ xs: 12, md: 6 }}>
-          <ImagePlaceholder label="Zdjęcie: ja przy kole garncarskim / w pracowni" />
+          <ImagePlaceholder label="Zdjęcie: praca w pracowni" />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="overline" color="secondary.main">
             O mnie
           </Typography>
           <Typography variant="h2" sx={{ mt: 1, mb: 2 }}>
-            [Twoje imię], ceramiczka
+            Kobieta na kole
           </Typography>
           <Typography variant="body1" sx={{ color: "text.secondary", mb: 2 }}>
-            [Jak zaczęła się Twoja przygoda z gliną? Kiedy pierwszy raz usiadłaś
-            przy kole i co sprawiło, że zostałaś?]
+            To mała, domowa pracownia ceramiki. Wszystko zaczęło się kilka lat
+            temu od zajęć garncarskich – z ciekawości, która szybko zamieniła
+            się w pasję. Praca z gliną daje spokój, jakiego trudno szukać gdzie
+            indziej: czas zwalnia, myśli się układają, a w dłoniach powoli
+            powstaje nowa forma.
           </Typography>
           <Typography variant="body1" sx={{ color: "text.secondary" }}>
-            [Co jest dla Ciebie ważne w tym, co tworzysz — forma, szkliwa,
-            użytkowość, materiały? Gdzie jest Twoja pracownia?]
+            Każdą pracę formuję ręcznie, dlatego żadne dwie nie są identyczne.
+            Powstają tu zarówno rzeczy do codziennego użytku, jak i takie, które
+            po prostu cieszą oko na półce. Ceramiki wciąż się uczę i każdy wypał
+            czegoś mnie uczy.
           </Typography>
         </Grid>
       </Grid>
