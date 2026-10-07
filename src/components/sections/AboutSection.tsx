@@ -22,15 +22,17 @@ const AboutSection = () => (
             O mnie
           </Typography>
           <Typography variant="h2" sx={{ mt: 1, mb: 2 }}>
-            [Twoje imię], ceramiczka
+            Kobieta na kole
           </Typography>
           <Typography variant="body1" sx={{ color: "text.secondary", mb: 2 }}>
-            [Jak zaczęła się Twoja przygoda z gliną? Kiedy pierwszy raz usiadłaś
-            przy kole i co sprawiło, że zostałaś?]
+            To mała, domowa pracownia ceramiki. Większość prac powstaje na kole
+            garncarskim, od bryły gliny aż po ostatni wypał, dlatego żadne dwa
+            naczynia nie są identyczne.
           </Typography>
           <Typography variant="body1" sx={{ color: "text.secondary" }}>
-            [Co jest dla Ciebie ważne w tym, co tworzysz — forma, szkliwa,
-            użytkowość, materiały? Gdzie jest Twoja pracownia?]
+            Stawiam na proste formy i rzeczy do codziennego użytku, a nie tylko
+            do stania na półce. Ceramiki wciąż się uczę i każdy wypał czegoś
+            mnie uczy.
           </Typography>
         </Grid>
       </Grid>

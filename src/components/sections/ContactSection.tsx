@@ -31,7 +31,8 @@ const ContactSection = () => (
         variant="body1"
         sx={{ color: "text.secondary", mb: 5, maxWidth: 640 }}
       >
-        [Na przykład: współpraca, wystawy, targi, pytania o ceramikę.]
+        Masz pytanie o ceramikę albo którąś z prac? Napisz maila lub wiadomość
+        na Instagramie.
       </Typography>
       <Grid container spacing={4}>
         {ITEMS.map((item) => (
