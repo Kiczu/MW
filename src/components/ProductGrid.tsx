@@ -1,87 +1,121 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
-  Button,
-  Divider,
-  CardActions,
-} from "@mui/material";
-import { useRouter } from "next/navigation";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import Image from "next/image";
+import Link from "next/link";
 import { useCart } from "@/providers/CartContext";
-import { CartProduct } from "@/types/cart";
+import type { UiProduct } from "@/types/shop";
+import { PATHS } from "@/config/paths";
 import { SHOP_ENABLED } from "@/config/features";
+import { pln } from "@/utils/money";
 
-type Props = { products: CartProduct[] };
-
-const ProductGrid = ({ products }: Props) => {
-  const router = useRouter();
+const WorkCard = ({ product }: { product: UiProduct }) => {
   const { addToCart } = useCart();
 
   return (
-    <Grid container spacing={3}>
-      {products.map((p) => (
-        <Grid key={p.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-          <Card>
-            {p.image && (
-              <CardMedia
-                component="img"
-                height={180}
-                image={p.image}
-                alt={p.title}
-              />
-            )}
-            <CardContent>
-              <Typography fontWeight={600} sx={{ mb: SHOP_ENABLED ? 0 : 1 }}>
-                {p.title}
-              </Typography>
-              {SHOP_ENABLED && (
-                <Typography
-                  color="primary.main"
-                  sx={{ mb: 1, fontWeight: 600 }}
-                >
-                  {new Intl.NumberFormat("pl-PL", {
-                    style: "currency",
-                    currency: "PLN",
-                  }).format(p.price)}
-                </Typography>
-              )}
-              <Divider />
-            </CardContent>
-            <CardActions>
-              <Button
-                sx={{ mr: 1 }}
-                variant="outlined"
-                onClick={() => router.push(`/product/${p.id}`)}
-              >
-                Szczegóły
-              </Button>
-              {SHOP_ENABLED && (
-                <Button
-                  variant="contained"
-                  onClick={() =>
-                    addToCart(
-                      {
-                        id: p.id,
-                        title: p.title,
-                        image: p.image,
-                        price: p.price,
-                      },
-                      1
-                    )
-                  }
-                >
-                  Do koszyka
-                </Button>
-              )}
-            </CardActions>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+    <Box sx={{ position: "relative" }}>
+      <Box
+        component={Link}
+        href={PATHS.product(product.id)}
+        sx={{
+          display: "block",
+          color: "inherit",
+          textDecoration: "none",
+          "&:hover .work-hover, &:focus-visible .work-hover": { opacity: 1 },
+          "&:hover .work-image, &:focus-visible .work-image": {
+            transform: "scale(1.03)",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            position: "relative",
+            aspectRatio: "4 / 5",
+            borderRadius: 3,
+            overflow: "hidden",
+            bgcolor: "background.paper",
+          }}
+        >
+          {product.image && (
+            <Image
+              className="work-image"
+              src={product.image}
+              alt={product.title}
+              fill
+              sizes="(min-width: 900px) 25vw, 50vw"
+              style={{ objectFit: "cover", transition: "transform .5s ease" }}
+            />
+          )}
+          {product.hoverImage && (
+            <Image
+              className="work-hover"
+              src={product.hoverImage}
+              alt=""
+              fill
+              sizes="(min-width: 900px) 25vw, 50vw"
+              style={{
+                objectFit: "cover",
+                opacity: 0,
+                transition: "opacity .4s ease",
+              }}
+            />
+          )}
+        </Box>
+        <Box sx={{ mt: 1.5 }}>
+          {product.category && (
+            <Typography
+              variant="caption"
+              color="secondary.main"
+              sx={{ textTransform: "uppercase", letterSpacing: 1 }}
+            >
+              {product.category}
+            </Typography>
+          )}
+          <Typography fontWeight={600}>{product.title}</Typography>
+          {SHOP_ENABLED && (
+            <Typography variant="body2" color="text.secondary">
+              {pln(product.price)}
+            </Typography>
+          )}
+        </Box>
+      </Box>
+      {SHOP_ENABLED && (
+        <Tooltip title="Dodaj do koszyka">
+          <IconButton
+            size="small"
+            aria-label={`Dodaj do koszyka: ${product.title}`}
+            onClick={() =>
+              addToCart({
+                id: product.id,
+                title: product.title,
+                image: product.image,
+                price: product.price,
+              })
+            }
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              bgcolor: "background.paper",
+              "&:hover": { bgcolor: "background.default" },
+            }}
+          >
+            <AddShoppingCartIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Box>
   );
 };
+
+const ProductGrid = ({ products }: { products: UiProduct[] }) => (
+  <Grid container spacing={{ xs: 2, md: 3 }} rowSpacing={{ xs: 4, md: 5 }}>
+    {products.map((p) => (
+      <Grid key={p.id} size={{ xs: 6, md: 3 }}>
+        <WorkCard product={p} />
+      </Grid>
+    ))}
+  </Grid>
+);
 
 export default ProductGrid;
