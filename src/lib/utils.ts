@@ -1,8 +1,5 @@
 export const formatPrice = (value: number) => `${value.toFixed(2)} zł`;
 
-// Self-testy — uruchamiają się TYLKO, jeśli plik odpalisz bezpośrednio (np. ts-node lib/utils.ts)
-// W normalnym buildzie Next.js się nie wykonają
-// @ts-ignore
 if (
   typeof require !== "undefined" &&
   typeof module !== "undefined" &&

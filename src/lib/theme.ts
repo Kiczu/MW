@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
-let theme = createTheme({
+const theme = createTheme({
   palette: {
     mode: "light",
     background: {

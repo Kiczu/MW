@@ -1,9 +1,7 @@
 import { notFound } from "next/navigation";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Container, Box, Typography } from "@mui/material";
 import ProductPage from "@/components/ProductPage";
-import { storeFetch, type StoreProduct } from "@/lib/api/woo";
+import { storeFetch } from "@/lib/api/woo";
+import type { StoreProduct } from "@/types/shop";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -24,15 +22,7 @@ const ProductRoute = async ({ params }: Params) => {
   if (!p) return notFound();
   const product = toLite(p);
 
-  return (
-    <>
-      <Navbar />
-      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 } }}>
-        <ProductPage product={product} />
-      </Container>
-      <Footer />
-    </>
-  );
+  return <ProductPage product={product} />;
 };
 
 export default ProductRoute;
