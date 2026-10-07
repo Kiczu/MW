@@ -11,20 +11,15 @@
 
 ## Branches and commits
 
-- One branch per concern, named `feat/…`, `fix/…`, `refactor/…` or `chore/…`, created from `main`.
+- One branch per feature or fix, named `feat/…`, `fix/…`, `refactor/…` or `chore/…`. Unrelated changes go to separate branches, even when they come up during the same work.
 - Use short [Conventional Commits](https://www.conventionalcommits.org/) subjects with a scope, e.g. `fix(cart): keep quantity when re-adding a product`.
 - Keep each commit focused and buildable.
-- A branch that depends on another one forms a stack: merge them in base-to-tip order and rebase the next branch onto `main` before merging it.
-- Rewrite only unpublished commits. Make a local backup branch before a larger rebase.
-
-## Merging
-
-- Merge into `main` through a pull request with a merge commit (no squash), after review.
-- Delete the branch after it has been merged.
+- A branch that builds on another unmerged branch starts from it; merge them in that order.
+- Merge into `main` through a pull request with a merge commit (no squash).
 
 ## Verification
 
-Before opening a pull request run:
+Before merging run:
 
 ```bash
 npm run lint
