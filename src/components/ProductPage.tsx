@@ -30,10 +30,10 @@ const ProductPage = ({ product }: { product: CartProduct }) => {
         Wróć
       </Button>
       <Grid container spacing={6}>
-        <Grid size={{ xs: 1, md: 6 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Box
             sx={{
-              height: 520,
+              height: { xs: 360, md: 520 },
               borderRadius: 4,
               overflow: "hidden",
               border: "1px solid",
