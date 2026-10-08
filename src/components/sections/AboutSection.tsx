@@ -25,16 +25,16 @@ const AboutSection = () => (
             Kobieta na kole
           </Typography>
           <Typography variant="body1" sx={{ color: "text.secondary", mb: 2 }}>
-            To mała, domowa pracownia ceramiki. Wszystko zaczęło się kilka lat
-            temu od zajęć garncarskich – z ciekawości, która szybko zamieniła
+            To moja mała, domowa pracownia ceramiki. Kilka lat temu zapisałam
+            się na zajęcia garncarskie – z ciekawości, która szybko zamieniła
             się w pasję. Praca z gliną daje spokój, jakiego trudno szukać gdzie
             indziej: czas zwalnia, myśli się układają, a w dłoniach powoli
             powstaje nowa forma.
           </Typography>
           <Typography variant="body1" sx={{ color: "text.secondary" }}>
             Każdą pracę formuję ręcznie, dlatego żadne dwie nie są identyczne.
-            Powstają tu zarówno rzeczy do codziennego użytku, jak i takie, które
-            po prostu cieszą oko na półce. Ceramiki wciąż się uczę i każdy wypał
+            Tworzę zarówno rzeczy do codziennego użytku, jak i takie, które po
+            prostu cieszą oko na półce. Ceramiki wciąż się uczę i każdy wypał
             czegoś mnie uczy.
           </Typography>
         </Grid>

@@ -4,23 +4,23 @@ import ImagePlaceholder from "@/components/ImagePlaceholder";
 const STEPS = [
   {
     title: "Glina",
-    text: "Pracuję na gotowych masach ceramicznych, najczęściej na porcelanie. Każda zachowuje się trochę inaczej w dłoniach i w piecu.",
+    text: "Pracuję na kamionce – wytrzymałej masie, która dobrze znosi codzienne użytkowanie.",
   },
   {
     title: "Formowanie",
-    text: "Każdą pracę kształtuję ręcznie. Po podsuszeniu wygładzam ją i dopracowuję detale.",
+    text: "Korzystam ze wszystkich technik lepienia: z wałków, z płatów, z bryły gliny i w formach – np. do kubków czy choinek. Większość form robię sama.",
   },
   {
     title: "Suszenie i pierwszy wypał",
-    text: "Prace schną powoli, żeby nie popękały. Pierwszy, biskwitowy wypał utwardza glinę i przygotowuje ją do szkliwienia.",
+    text: "Praca schnie około pięciu dni. Potem trafia do pieca na wypał biskwitowy w 900°C, który utwardza glinę i przygotowuje ją do szkliwienia.",
   },
   {
-    title: "Szkliwienie",
-    text: "Używam gotowych szkliw z atestem do kontaktu z żywnością, więc z naczyń można bezpiecznie jeść i pić.",
+    title: "Szkliwienie i zdobienie",
+    text: "Najczęściej szkliwię – szkliwami Amaco, Botz i Mayco. Czasem sięgam też po angobę, odwzorowanie faktur (np. liści), malowanie albo sgraffito, czyli rycie wzorów.",
   },
   {
     title: "Drugi wypał",
-    text: "Wypał na ostro, w temperaturze ok. 1200–1300°C, stapia szkliwo. Dopiero po otwarciu pieca widać efekt i każda sztuka wychodzi trochę inna.",
+    text: "Drugi wypał, już ze szkliwem, odbywa się w 1080°C albo w 1220°C. Później piec powoli stygnie przez kilkadziesiąt godzin, a jego otwarcie to zawsze chwila pełna emocji – nigdy do końca nie wiadomo, co z niego wyjdzie.",
   },
 ];
 
@@ -37,8 +37,8 @@ const ProcessSection = () => (
         variant="body1"
         sx={{ color: "text.secondary", mb: 5, maxWidth: 640 }}
       >
-        Zanim naczynie trafi na stół, przechodzi przez kilka etapów i dwa
-        wypały.
+        Od bryły gliny do gotowej pracy mijają około dwa tygodnie: kilka etapów
+        i dwa wypały.
       </Typography>
       <Grid container spacing={3}>
         {STEPS.map((s, i) => (

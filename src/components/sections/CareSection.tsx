@@ -12,15 +12,19 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const FAQ = [
   {
     q: "Czy naczynia można myć w zmywarce?",
-    a: "Najbezpieczniej myć ręcznie, ciepłą wodą z łagodnym płynem. Dzięki temu szkliwo dłużej zachowa swój wygląd.",
+    a: "Tak. Naczynia użytkowe szkliwię szkliwami na wysoką temperaturę, dlatego można je myć w zmywarce.",
   },
   {
-    q: "Czy można je wkładać do mikrofalówki i piekarnika?",
-    a: "Ceramika nie lubi gwałtownych zmian temperatury, dlatego na razie tego nie zalecam. Nie przenoś naczynia z lodówki prosto do gorącego piekarnika ani na odwrót.",
+    q: "Czy można je wkładać do piekarnika?",
+    a: "Tak. Unikaj tylko gwałtownych zmian temperatury – nie wkładaj zimnego naczynia prosto do rozgrzanego piekarnika.",
+  },
+  {
+    q: "A do mikrofalówki?",
+    a: "Jeszcze tego nie sprawdziłam, dlatego na razie lepiej nie podgrzewać w nich jedzenia w mikrofalówce.",
   },
   {
     q: "Czy szkliwa są bezpieczne do kontaktu z żywnością?",
-    a: "Tak. Używam gotowych szkliw z atestem do kontaktu z żywnością.",
+    a: "Naczynia użytkowe zawsze szkliwię szkliwami z atestem do kontaktu z żywnością. Prace dekoracyjne, np. figurki, nie zawsze – nie służą do jedzenia ani picia.",
   },
   {
     q: "Dlaczego każda sztuka wygląda trochę inaczej?",
