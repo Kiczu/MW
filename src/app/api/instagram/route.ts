@@ -54,7 +54,7 @@ export async function GET(req: Request) {
         );
     }
 
-    const url = new URL(`https://graph.facebook.com/v19.0/${userId}/media`);
+    const url = new URL(`https://graph.facebook.com/v24.0/${userId}/media`);
     url.searchParams.set("fields", FIELDS);
     url.searchParams.set("access_token", token);
     url.searchParams.set("limit", String(limit));
