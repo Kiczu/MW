@@ -15,7 +15,8 @@ const ProductGallery = ({ images }: { images: ProductDetails["images"] }) => {
       <Box
         sx={{
           position: "relative",
-          aspectRatio: "4 / 5",
+          aspectRatio: "1 / 1",
+          width: { xs: "100%", md: "min(100%, 70vh)" },
           borderRadius: 4,
           overflow: "hidden",
           bgcolor: "background.paper",
@@ -26,7 +27,7 @@ const ProductGallery = ({ images }: { images: ProductDetails["images"] }) => {
           alt={current.alt}
           fill
           priority
-          sizes="(min-width: 900px) 58vw, 100vw"
+          sizes="(min-width: 900px) 50vw, 100vw"
           style={{ objectFit: "cover" }}
         />
       </Box>
@@ -41,7 +42,7 @@ const ProductGallery = ({ images }: { images: ProductDetails["images"] }) => {
               sx={{
                 position: "relative",
                 width: 72,
-                height: 90,
+                height: 72,
                 borderRadius: 2,
                 overflow: "hidden",
                 outline: "2px solid",
