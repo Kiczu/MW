@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import ImagePlaceholder from "@/components/ImagePlaceholder";
 
 const STEPS = [
@@ -35,33 +35,57 @@ const ProcessSection = () => (
       </Typography>
       <Typography
         variant="body1"
-        sx={{ color: "text.secondary", mb: 5, maxWidth: 640 }}
+        sx={{ color: "text.secondary", mb: { xs: 6, md: 10 }, maxWidth: 640 }}
       >
         Od bryły gliny do gotowej pracy mijają około dwa tygodnie: kilka etapów
         i dwa wypały.
       </Typography>
-      <Grid container spacing={3}>
+      <Stack spacing={{ xs: 6, md: 10 }}>
         {STEPS.map((s, i) => (
-          <Grid key={s.title} size={{ xs: 12, sm: 6, md: 12 / 5 }}>
-            <ImagePlaceholder
-              label={`Zdjęcie: ${s.title.toLowerCase()}`}
-              height={180}
-            />
-            <Typography
-              variant="overline"
-              sx={{ display: "block", mt: 2, color: "primary.main" }}
+          <Grid
+            key={s.title}
+            container
+            spacing={{ xs: 3, md: 8 }}
+            alignItems="center"
+          >
+            <Grid
+              size={{ xs: 12, md: 6 }}
+              sx={{ order: { md: i % 2 === 0 ? 1 : 2 } }}
             >
-              {String(i + 1).padStart(2, "0")}
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
-              {s.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {s.text}
-            </Typography>
+              <Box sx={{ aspectRatio: "4 / 3" }}>
+                <ImagePlaceholder
+                  label={`Zdjęcie: ${s.title.toLowerCase()}`}
+                  height="100%"
+                />
+              </Box>
+            </Grid>
+            <Grid
+              size={{ xs: 12, md: 6 }}
+              sx={{ order: { md: i % 2 === 0 ? 2 : 1 } }}
+            >
+              <Box sx={{ maxWidth: 440 }}>
+                <Typography
+                  sx={{
+                    fontSize: { xs: 40, md: 56 },
+                    fontWeight: 300,
+                    lineHeight: 1,
+                    color: "primary.main",
+                    mb: 2,
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </Typography>
+                <Typography variant="h5" sx={{ fontWeight: 700, mb: 1.5 }}>
+                  {s.title}
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  {s.text}
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
         ))}
-      </Grid>
+      </Stack>
     </Container>
   </Box>
 );
