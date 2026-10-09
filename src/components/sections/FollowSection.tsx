@@ -12,14 +12,14 @@ const FollowSection = () => (
       textAlign: "center",
     }}
   >
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Typography variant="overline" sx={{ opacity: 0.8 }}>
         Pracownia na bieżąco
       </Typography>
       <Typography variant="h2" sx={{ mt: 1, mb: 2 }}>
         Zajrzyj do pracowni
       </Typography>
-      <Typography sx={{ opacity: 0.9, mb: 4 }}>
+      <Typography sx={{ opacity: 0.9, mb: 4, maxWidth: 560, mx: "auto" }}>
         Nowe prace, kulisy pracowni i efekty wypałów pokazuję na bieżąco na
         Instagramie.
       </Typography>
