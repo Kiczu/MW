@@ -32,11 +32,11 @@ const ProductPage = ({ product }: { product: ProductDetails }) => (
       Wszystkie prace
     </Button>
     <Grid container spacing={{ xs: 4, md: 8 }}>
-      <Grid size={{ xs: 12, md: 7 }}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <ProductGallery images={product.images} />
       </Grid>
 
-      <Grid size={{ xs: 12, md: 5 }}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Box sx={{ position: { md: "sticky" }, top: { md: 128 } }}>
           {product.categories.length > 0 && (
             <Typography variant="overline" color="secondary.main">
