@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import ImagePlaceholder from "@/components/ImagePlaceholder";
+import Image from "next/image";
 
 const AboutSection = () => (
   <Box
@@ -15,7 +15,22 @@ const AboutSection = () => (
     <Container maxWidth="lg">
       <Grid container spacing={6} alignItems="center">
         <Grid size={{ xs: 12, md: 6 }}>
-          <ImagePlaceholder label="Zdjęcie: praca w pracowni" />
+          <Box
+            sx={{
+              position: "relative",
+              aspectRatio: "4 / 3",
+              borderRadius: 4,
+              overflow: "hidden",
+            }}
+          >
+            <Image
+              src="/assets/studio/pracownia.jpg"
+              alt="Pracownia ceramiczna: stół z narzędziami, półki ze szkliwami i ceramiką"
+              fill
+              sizes="(min-width: 900px) 50vw, 100vw"
+              style={{ objectFit: "cover" }}
+            />
+          </Box>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="overline" color="secondary.main">
