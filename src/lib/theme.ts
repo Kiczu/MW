@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
-const theme = createTheme({
+let theme = createTheme({
   palette: {
     mode: "light",
     background: {
@@ -14,7 +14,12 @@ const theme = createTheme({
   },
   typography: {
     h1: { fontWeight: 700, letterSpacing: ".5px" },
-    h2: { fontWeight: 700, letterSpacing: ".2px" },
+    h2: {
+      fontSize: "2.5rem",
+      lineHeight: 1.15,
+      fontWeight: 700,
+      letterSpacing: ".2px",
+    },
     button: { textTransform: "none", letterSpacing: 0.2, fontWeight: 600 },
   },
   components: {
@@ -43,4 +48,11 @@ const theme = createTheme({
   },
 });
 
-export default responsiveFontSizes(theme);
+theme = responsiveFontSizes(theme);
+
+theme.typography.h2 = {
+  ...theme.typography.h2,
+  "@media (min-width:1300px)": { fontSize: "3.4375rem" },
+};
+
+export default theme;
